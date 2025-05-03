@@ -1,22 +1,43 @@
 var builder = WebApplication.CreateBuilder(args);
 
-// CORS ayarını ekliyoruz
+// CORS (Frontend'in erişebilmesi için)
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowFrontend",
-        policy => policy.WithOrigins("http://localhost:3001")
-                        .AllowAnyHeader()
-                        .AllowAnyMethod());
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
 });
 
-// Controller desteğini aktif et
-builder.Services.AddControllers();
+// Dummy veriler
+var reservations = new List<object>
+{
+    new {
+        Id = 1,
+        GuestName = "Sude",
+        HouseName = "Tiny Paradise",
+        CheckInDate = "2025-06-01",
+        CheckOutDate = "2025-06-05"
+    },
+    new {
+        Id = 2,
+        GuestName = "Burak",
+        HouseName = "Cozy Cabin",
+        CheckInDate = "2025-06-10",
+        CheckOutDate = "2025-06-15"
+    }
+};
 
 var app = builder.Build();
 
-app.UseCors("AllowFrontend");
+app.UseCors("AllowAll");
 
-// Routing için gerekli middleware
-app.MapControllers();
+// Endpoint: GET /api/reservations
+app.MapGet("/api/reservations", () =>
+{
+    return Results.Ok(reservations);
+});
 
 app.Run();

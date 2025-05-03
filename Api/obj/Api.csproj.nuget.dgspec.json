@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/selversude/tinyHouse/Api/Api.csproj": {}
+    "/Users/selversude/Desktop/tinyHouse/Api/Api.csproj": {}
   },
   "projects": {
-    "/Users/selversude/tinyHouse/Api/Api.csproj": {
+    "/Users/selversude/Desktop/tinyHouse/Api/Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/selversude/tinyHouse/Api/Api.csproj",
+        "projectUniqueName": "/Users/selversude/Desktop/tinyHouse/Api/Api.csproj",
         "projectName": "Api",
-        "projectPath": "/Users/selversude/tinyHouse/Api/Api.csproj",
+        "projectPath": "/Users/selversude/Desktop/tinyHouse/Api/Api.csproj",
         "packagesPath": "/Users/selversude/.nuget/packages/",
-        "outputPath": "/Users/selversude/tinyHouse/Api/obj/",
+        "outputPath": "/Users/selversude/Desktop/tinyHouse/Api/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/selversude/.nuget/NuGet/NuGet.Config"
@@ -43,6 +43,12 @@
       "frameworks": {
         "net9.0": {
           "targetAlias": "net9.0",
+          "dependencies": {
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[8.1.1, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

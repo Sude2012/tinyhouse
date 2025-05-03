@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/selversude/tinyHouse/tinyhouse/tinyhouse.csproj",
+      "projectUniqueName": "/Users/selversude/Desktop/tinyHouse/tinyhouse/tinyhouse.csproj",
       "projectName": "tinyhouse",
-      "projectPath": "/Users/selversude/tinyHouse/tinyhouse/tinyhouse.csproj",
+      "projectPath": "/Users/selversude/Desktop/tinyHouse/tinyhouse/tinyhouse.csproj",
       "packagesPath": "/Users/selversude/.nuget/packages/",
-      "outputPath": "/Users/selversude/tinyHouse/tinyhouse/obj/",
+      "outputPath": "/Users/selversude/Desktop/tinyHouse/tinyhouse/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/selversude/.nuget/NuGet/NuGet.Config"
