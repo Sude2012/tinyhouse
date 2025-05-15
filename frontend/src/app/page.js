@@ -4,14 +4,124 @@ import { IoIosArrowDown } from "react-icons/io";
 import { FiSearch } from "react-icons/fi";
 import { FaBed, FaBath, FaStar, FaHeart, FaRegHeart } from "react-icons/fa";
 
+const houses = [
+  {
+    id: 1,
+    location: "İzmir, Türkiye",
+    beds: 2,
+    baths: 1,
+    price: 1200,
+    rating: 4.8,
+    image: "https://via.placeholder.com/400x250",
+  },
+  {
+    id: 2,
+    location: "Antalya, Türkiye",
+    beds: 3,
+    baths: 2,
+    price: 1500,
+    rating: 4.7,
+    image: "https://via.placeholder.com/400x250",
+  },
+  {
+    id: 3,
+    location: "Muğla, Türkiye",
+    beds: 1,
+    baths: 1,
+    price: 1000,
+    rating: 4.6,
+    image: "https://via.placeholder.com/400x250",
+  },
+  {
+    id: 4,
+    location: "Kapadokya, Türkiye",
+    beds: 2,
+    baths: 1,
+    price: 1300,
+    rating: 4.9,
+    image: "https://via.placeholder.com/400x250",
+  },
+  {
+    id: 5,
+    location: "Çanakkale, Türkiye",
+    beds: 2,
+    baths: 1,
+    price: 1100,
+    rating: 4.5,
+    image: "https://via.placeholder.com/400x250",
+  },
+  {
+    id: 6,
+    location: "Bolu, Türkiye",
+    beds: 3,
+    baths: 2,
+    price: 1600,
+    rating: 4.9,
+    image: "https://via.placeholder.com/400x250",
+  },
+  {
+    id: 7,
+    location: "Trabzon, Türkiye",
+    beds: 2,
+    baths: 1,
+    price: 1150,
+    rating: 4.4,
+    image: "https://via.placeholder.com/400x250",
+  },
+  {
+    id: 8,
+    location: "Mersin, Türkiye",
+    beds: 1,
+    baths: 1,
+    price: 950,
+    rating: 4.3,
+    image: "https://via.placeholder.com/400x250",
+  },
+  {
+    id: 9,
+    location: "Eskişehir, Türkiye",
+    beds: 2,
+    baths: 1,
+    price: 980,
+    rating: 4.2,
+    image: "https://via.placeholder.com/400x250",
+  },
+  {
+    id: 10,
+    location: "Nevşehir, Türkiye",
+    beds: 3,
+    baths: 2,
+    price: 1250,
+    rating: 4.6,
+    image: "https://via.placeholder.com/400x250",
+  },
+  {
+    id: 11,
+    location: "Aydın, Türkiye",
+    beds: 2,
+    baths: 1,
+    price: 1080,
+    rating: 4.5,
+    image: "https://via.placeholder.com/400x250",
+  },
+  {
+    id: 12,
+    location: "Rize, Türkiye",
+    beds: 1,
+    baths: 1,
+    price: 890,
+    rating: 4.7,
+    image: "https://via.placeholder.com/400x250",
+  },
+];
+
 const HomePage = () => {
   const [showGuestDropdown, setShowGuestDropdown] = useState(false);
   const [adultCount, setAdultCount] = useState(1);
   const [childCount, setChildCount] = useState(0);
   const dropdownRef = useRef(null);
 
-  // Favori kalplerin durumlarını tutan state
-  const [favorites, setFavorites] = useState([false, false, false]);
+  const [favorites, setFavorites] = useState(houses.map(() => false));
 
   const toggleFavorite = (index) => {
     const updatedFavorites = [...favorites];
@@ -152,14 +262,14 @@ const HomePage = () => {
 
       {/* Ev Kartları */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-10 w-full max-w-6xl text-[#260B01]">
-        {[1, 2, 3].map((_, i) => (
+        {houses.map((house, i) => (
           <div
-            key={i}
+            key={house.id}
             className="bg-white rounded-lg shadow-md overflow-hidden relative"
           >
             <img
-              src="https://via.placeholder.com/400x250"
-              alt={`Ev ${i + 1}`}
+              src={house.image}
+              alt={`Ev ${house.id}`}
               className="w-full h-48 object-cover"
             />
             <div
@@ -173,24 +283,22 @@ const HomePage = () => {
               )}
             </div>
             <div className="p-4 text-[#260B01]">
-              <h3 className="font-semibold text-lg mb-1">İzmir, Türkiye</h3>
+              <h3 className="font-semibold text-lg mb-1">{house.location}</h3>
               <p>
                 <FaBed className="inline mr-1" />
-                <span className="mr-4">2 Yatak</span>
+                <span className="mr-4">{house.beds} Yatak</span>
                 <FaBath className="inline mr-1" />
-                <span>1 Banyo</span>
+                <span>{house.baths} Banyo</span>
               </p>
-              <p className="mt-2 font-bold">₺1.200 / gece</p>
+              <p className="mt-2 font-bold">₺{house.price} / gece</p>
               <p>
-                <FaStar className="inline text-yellow-500 mr-1" /> 4.8
+                <FaStar className="inline text-yellow-500 mr-1" />{" "}
+                {house.rating}
               </p>
             </div>
           </div>
         ))}
       </div>
-
-      {/* Rezervasyonlar */}
-      {/*<Reservations />*/}
     </div>
   );
 };
