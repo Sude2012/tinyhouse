@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
+import Link from "next/link";
 import { IoIosArrowDown } from "react-icons/io";
 import { FiSearch } from "react-icons/fi";
 import { FaBed, FaBath, FaStar, FaHeart, FaRegHeart } from "react-icons/fa";
@@ -12,7 +13,7 @@ const houses = [
     baths: 1,
     price: 1200,
     rating: 4.8,
-    image: "https://via.placeholder.com/400x250",
+    image: "/Unknown-49.jpg",
   },
   {
     id: 2,
@@ -21,7 +22,7 @@ const houses = [
     baths: 2,
     price: 1500,
     rating: 4.7,
-    image: "https://via.placeholder.com/400x250",
+    image: "/Unknown-57.jpg",
   },
   {
     id: 3,
@@ -30,7 +31,7 @@ const houses = [
     baths: 1,
     price: 1000,
     rating: 4.6,
-    image: "https://via.placeholder.com/400x250",
+    image: "/Cabana Angatu | CASACOR Rio de Janeiro 2023 - Casa….jpg",
   },
   {
     id: 4,
@@ -39,7 +40,7 @@ const houses = [
     baths: 1,
     price: 1300,
     rating: 4.9,
-    image: "https://via.placeholder.com/400x250",
+    image: "/5 Mind-Blowing Tiny House Designs.jpg",
   },
   {
     id: 5,
@@ -48,7 +49,7 @@ const houses = [
     baths: 1,
     price: 1100,
     rating: 4.5,
-    image: "https://via.placeholder.com/400x250",
+    image: "/Unknown-48.jpg",
   },
   {
     id: 6,
@@ -57,7 +58,7 @@ const houses = [
     baths: 2,
     price: 1600,
     rating: 4.9,
-    image: "https://via.placeholder.com/400x250",
+    image: "/tinyhouse2.webp",
   },
   {
     id: 7,
@@ -66,7 +67,7 @@ const houses = [
     baths: 1,
     price: 1150,
     rating: 4.4,
-    image: "https://via.placeholder.com/400x250",
+    image: "/Unknown-64.jpg",
   },
   {
     id: 8,
@@ -262,41 +263,46 @@ const HomePage = () => {
 
       {/* Ev Kartları */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-10 w-full max-w-6xl text-[#260B01]">
-        {houses.map((house, i) => (
-          <div
+        {houses.map((house, index) => (
+          <Link
             key={house.id}
-            className="bg-white rounded-lg shadow-md overflow-hidden relative"
+            href={`/houses/home${index + 1}`}
+            className="block bg-white rounded-lg overflow-hidden shadow-md relative cursor-pointer hover:shadow-xl transition-shadow"
           >
             <img
               src={house.image}
               alt={`Ev ${house.id}`}
               className="w-full h-48 object-cover"
             />
-            <div
-              className="absolute top-2 right-2 bg-white rounded-full p-2 shadow-md cursor-pointer"
-              onClick={() => toggleFavorite(i)}
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                toggleFavorite(index);
+              }}
+              className="absolute top-2 right-2 bg-white rounded-full p-2 shadow-md text-red-500 text-xl"
+              aria-label="Favorilere ekle"
             >
-              {favorites[i] ? (
-                <FaHeart className="text-red-500 text-xl" />
-              ) : (
-                <FaRegHeart className="text-red-500 text-xl" />
-              )}
+              {favorites[index] ? <FaHeart /> : <FaRegHeart />}
+            </button>
+            <div className="p-4">
+              <h2 className="text-xl font-semibold mb-1">{house.location}</h2>
+              <div className="flex items-center gap-4 text-sm mb-2">
+                <div className="flex items-center gap-1">
+                  <FaBed /> {house.beds} Yatak Odası
+                </div>
+                <div className="flex items-center gap-1">
+                  <FaBath /> {house.baths} Banyo
+                </div>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="font-bold">${house.price}/gece</span>
+                <span className="flex items-center gap-1 text-yellow-500">
+                  <FaStar /> {house.rating}
+                </span>
+              </div>
             </div>
-            <div className="p-4 text-[#260B01]">
-              <h3 className="font-semibold text-lg mb-1">{house.location}</h3>
-              <p>
-                <FaBed className="inline mr-1" />
-                <span className="mr-4">{house.beds} Yatak</span>
-                <FaBath className="inline mr-1" />
-                <span>{house.baths} Banyo</span>
-              </p>
-              <p className="mt-2 font-bold">₺{house.price} / gece</p>
-              <p>
-                <FaStar className="inline text-yellow-500 mr-1" />{" "}
-                {house.rating}
-              </p>
-            </div>
-          </div>
+          </Link>
         ))}
       </div>
     </div>
