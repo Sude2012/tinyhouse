@@ -5,19 +5,19 @@ import { useRouter } from "next/navigation";
 import { FaStar, FaBed, FaBath } from "react-icons/fa";
 
 const photos = [
-  "/Unknown-45.jpg",
-  "/Unknown-46.jpg",
+  "/A cozy one-bedroom barn hideaway offers open-plan….jpg",
+  "/Discover 19 stunning Tiny House Interior Design….jpg",
   "/Unknown-47.jpg",
   "/Unknown-48.jpg",
   "/Unknown-50.jpg",
 ];
 
 const house = {
-  location: "Antalya, Türkiye",
-  beds: 3,
-  baths: 2,
-  pricePerNight: 1500,
-  rating: 4.7,
+  location: "Aydın, Türkiye",
+  beds: 2,
+  baths: 1,
+  pricePerNight: 1080,
+  rating: 4.5,
 };
 
 export default function Home2DetailPage() {

@@ -5,18 +5,18 @@ import { useRouter } from "next/navigation";
 import { FaStar, FaBed, FaBath } from "react-icons/fa";
 
 const photos = [
-  "/Unknown-45.jpg",
-  "/Unknown-46.jpg",
+  "/tinyhouse3.jpeg",
+  "/11 Gorgeous Tiny Homes That You Will Absolutely….jpg",
   "/Unknown-47.jpg",
   "/Unknown-48.jpg",
   "/Unknown-50.jpg",
 ];
 
 const house = {
-  location: "Antalya, Türkiye",
-  beds: 3,
-  baths: 2,
-  pricePerNight: 1500,
+  location: "Rize, Türkiye",
+  beds: 1,
+  baths: 1,
+  pricePerNight: 890,
   rating: 4.7,
 };
 

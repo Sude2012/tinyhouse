@@ -5,19 +5,19 @@ import { useRouter } from "next/navigation";
 import { FaStar, FaBed, FaBath } from "react-icons/fa";
 
 const photos = [
-  "/Unknown-45.jpg",
-  "/Unknown-46.jpg",
+  "/This prefab tiny backyard home in Los Angeles….jpg",
+  "/Unknown-51.jpg",
   "/Unknown-47.jpg",
-  "/Unknown-48.jpg",
+  "/Unknown-53.jpg",
   "/Unknown-50.jpg",
 ];
 
 const house = {
-  location: "Antalya, Türkiye",
+  location: "Nevşehir, Türkiye",
   beds: 3,
   baths: 2,
-  pricePerNight: 1500,
-  rating: 4.7,
+  pricePerNight: 1250,
+  rating: 4.6,
 };
 
 export default function Home2DetailPage() {

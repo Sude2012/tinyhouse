@@ -76,7 +76,7 @@ const houses = [
     baths: 1,
     price: 950,
     rating: 4.3,
-    image: "https://via.placeholder.com/400x250",
+    image: "/Small modern cottage with chimney with deck….jpg",
   },
   {
     id: 9,
@@ -85,7 +85,7 @@ const houses = [
     baths: 1,
     price: 980,
     rating: 4.2,
-    image: "https://via.placeholder.com/400x250",
+    image: "/ev-resmi.jpeg",
   },
   {
     id: 10,
@@ -94,7 +94,7 @@ const houses = [
     baths: 2,
     price: 1250,
     rating: 4.6,
-    image: "https://via.placeholder.com/400x250",
+    image: "/This prefab tiny backyard home in Los Angeles….jpg",
   },
   {
     id: 11,
@@ -103,7 +103,7 @@ const houses = [
     baths: 1,
     price: 1080,
     rating: 4.5,
-    image: "https://via.placeholder.com/400x250",
+    image: "/A cozy one-bedroom barn hideaway offers open-plan….jpg",
   },
   {
     id: 12,
@@ -112,7 +112,7 @@ const houses = [
     baths: 1,
     price: 890,
     rating: 4.7,
-    image: "https://via.placeholder.com/400x250",
+    image: "/tinyhouse3.jpeg",
   },
 ];
 

@@ -6,10 +6,10 @@ import { FaStar, FaBed, FaBath } from "react-icons/fa";
 
 const photos = [
   "/Unknown-57.jpg",
-  "/Unknown-46.jpg",
-  "/Unknown-47.jpg",
-  "/Unknown-48.jpg",
-  "/Unknown-50.jpg",
+  "/25+ Genius Laundry Room Ideas That Will Maximize….jpg",
+  "/Get inspired by these tiny home villages layouts….jpg",
+  "/Unknown-54.jpg",
+  "/Unknown-66.jpg",
 ];
 
 const house = {

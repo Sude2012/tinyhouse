@@ -5,11 +5,11 @@ import { useRouter } from "next/navigation";
 import { FaStar, FaBed, FaBath } from "react-icons/fa";
 
 const photos = [
-  "/Unknown-45.jpg",
-  "/Unknown-46.jpg",
-  "/Unknown-47.jpg",
-  "/Unknown-48.jpg",
-  "/Unknown-50.jpg",
+  "/Cabana Angatu | CASACOR Rio de Janeiro 2023 - Casa….jpg",
+  "/bathroom.jpg",
+  "/Unknown-51.jpg",
+  "/Unknown-52.jpg",
+  "/Unknown-56.jpg",
 ];
 
 const house = {

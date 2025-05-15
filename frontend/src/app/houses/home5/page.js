@@ -6,7 +6,7 @@ import { FaStar, FaBed, FaBath } from "react-icons/fa";
 
 const photos = [
   "/Unknown-48.jpg",
-  "/Unknown-46.jpg",
+  "/Get inspired by these tiny home villages layouts….jpg",
   "/Unknown-47.jpg",
   "/Unknown-48.jpg",
   "/Unknown-50.jpg",
