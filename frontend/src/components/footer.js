@@ -62,7 +62,7 @@ const Footer = () => {
       <div>
         <h3 className="font-bold underline mb-2">Mail Atın</h3>
         <Link
-          href="mailto:info@example.com"
+          href="mailto:beyza@example.com"
           className="underline hover:opacity-75"
           style={{ color: "#260B01" }}
         >
