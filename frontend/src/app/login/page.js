@@ -8,7 +8,7 @@ export default function LoginPage() {
   return (
     <div className="relative flex items-center justify-center min-h-screen bg-gray-100 px-4">
       <img
-        src="/TinyHouse.jpeg"
+        src="/foto70.jpg"
         alt="Background"
         className="absolute inset-0 w-full h-full object-cover opacity-82 z-0"
       />
@@ -18,21 +18,21 @@ export default function LoginPage() {
         </h1>
 
         <button
-          onClick={() => router.push("/login/tenant")}
+          onClick={() => router.push("/tenant")}
           className="w-64 bg-[#260B01] text-white py-3 rounded hover:bg-[#CDBEAF] transition"
         >
           Kiracı Girişi
         </button>
 
         <button
-          onClick={() => router.push("/login/owner")}
+          onClick={() => router.push("/owner")}
           className="w-64 bg-[#260B01] text-white py-3 rounded hover:bg-[#CDBEAF] transition"
         >
           İlan Sahibi Girişi
         </button>
 
         <button
-          onClick={() => router.push("/login/admin")}
+          onClick={() => router.push("/admin")}
           className="w-64 bg-[#260B01] text-white py-3 rounded hover:bg-[#CDBEAF] transition"
         >
           Admin Girişi

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { FaStar, FaBed, FaBath } from "react-icons/fa";
 
 const photos = [
-  "/Cabana Angatu | CASACOR Rio de Janeiro 2023 - Casa….jpg",
+  "/foto2.jpg",
   "/bathroom.jpg",
   "/Unknown-51.jpg",
   "/Unknown-52.jpg",

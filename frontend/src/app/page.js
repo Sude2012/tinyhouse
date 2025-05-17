@@ -31,7 +31,7 @@ const houses = [
     baths: 1,
     price: 1000,
     rating: 4.6,
-    image: "/Cabana Angatu | CASACOR Rio de Janeiro 2023 - Casa….jpg",
+    image: "/foto2.jpg",
   },
   {
     id: 4,
@@ -40,7 +40,7 @@ const houses = [
     baths: 1,
     price: 1300,
     rating: 4.9,
-    image: "/5 Mind-Blowing Tiny House Designs.jpg",
+    image: "/foto9.jpg",
   },
   {
     id: 5,
@@ -76,7 +76,7 @@ const houses = [
     baths: 1,
     price: 950,
     rating: 4.3,
-    image: "/Small modern cottage with chimney with deck….jpg",
+    image: "/foto5.jpg",
   },
   {
     id: 9,
@@ -94,7 +94,7 @@ const houses = [
     baths: 2,
     price: 1250,
     rating: 4.6,
-    image: "/This prefab tiny backyard home in Los Angeles….jpg",
+    image: "/foto10.jpg",
   },
   {
     id: 11,
@@ -103,7 +103,7 @@ const houses = [
     baths: 1,
     price: 1080,
     rating: 4.5,
-    image: "/A cozy one-bedroom barn hideaway offers open-plan….jpg",
+    image: "/foto6.jpg",
   },
   {
     id: 12,

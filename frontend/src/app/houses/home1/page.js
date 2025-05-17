@@ -6,7 +6,7 @@ import { FaStar, FaBed, FaBath } from "react-icons/fa";
 
 const photos = [
   "/Unknown-49.jpg",
-  "/16 Unique Modern Tiny House Ideas to Inspire 55.jpg",
+  "/foto1.jpg",
   "/Unknown-58.jpg",
   "/Unknown-51.jpg",
   "/Unknown-62.jpg",

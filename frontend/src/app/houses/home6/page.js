@@ -6,10 +6,10 @@ import { FaStar, FaBed, FaBath } from "react-icons/fa";
 
 const photos = [
   "/tinyhouse2.webp",
-  "/Unknown-46.jpg",
+  "/Unknown-66.jpg",
   "/Unknown-47.jpg",
-  "/Unknown-48.jpg",
-  "/Unknown-50.jpg",
+  "/Unknown-65.jpg",
+  "/Unknown-59.jpg",
 ];
 
 const house = {

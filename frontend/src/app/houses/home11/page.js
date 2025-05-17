@@ -5,11 +5,11 @@ import { useRouter } from "next/navigation";
 import { FaStar, FaBed, FaBath } from "react-icons/fa";
 
 const photos = [
-  "/A cozy one-bedroom barn hideaway offers open-plan….jpg",
-  "/Discover 19 stunning Tiny House Interior Design….jpg",
+  "/foto6.jpg",
+  "/Unknown-52.jpg",
   "/Unknown-47.jpg",
-  "/Unknown-48.jpg",
-  "/Unknown-50.jpg",
+  "/foto4.jpg",
+  "/Unknown-66.jpg",
 ];
 
 const house = {

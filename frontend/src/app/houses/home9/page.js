@@ -7,8 +7,8 @@ import { FaStar, FaBed, FaBath } from "react-icons/fa";
 const photos = [
   "/ev-resmi.jpeg",
   "/bathroom.jpg",
-  "/Discover 19 stunning Tiny House Interior Design….jpg",
-  "/Tiny house cabin interiors use smart design and….jpg",
+  "/Unknown-54.jpg",
+  "/Unknown-62.jpg",
   "/Unknown-52.jpg",
 ];
 

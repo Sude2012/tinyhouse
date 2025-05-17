@@ -5,11 +5,11 @@ import { useRouter } from "next/navigation";
 import { FaStar, FaBed, FaBath } from "react-icons/fa";
 
 const photos = [
-  "/Small modern cottage with chimney with deck….jpg",
-  "/Unknown-46.jpg",
+  "/foto5.jpg",
+  "/Unknown-63.jpg",
   "/Unknown-47.jpg",
-  "/Unknown-55.jpg",
-  "/Unknown-50.jpg",
+  "/foto3.jpg",
+  "/Unknown-62.jpg",
 ];
 
 const house = {

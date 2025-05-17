@@ -5,11 +5,11 @@ import { useRouter } from "next/navigation";
 import { FaStar, FaBed, FaBath } from "react-icons/fa";
 
 const photos = [
-  "/This prefab tiny backyard home in Los Angeles….jpg",
+  "/foto10.jpg",
   "/Unknown-51.jpg",
   "/Unknown-47.jpg",
   "/Unknown-53.jpg",
-  "/Unknown-50.jpg",
+  "/Unknown-62.jpg",
 ];
 
 const house = {

@@ -1,9 +1,9 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Data.SqlClient;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
 using BCrypt.Net;
-System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,36 +12,22 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
     {
-        policy.WithOrigins("http://localhost:3000")
+        policy.WithOrigins("http://localhost:3000") // Frontend adresin
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
 });
 
-// List<Reservation> DI container'a ekleniyor
-builder.Services.AddSingleton<List<Reservation>>(); 
-
 var app = builder.Build();
 
 app.UseCors("AllowAll");
 
-// Rezervasyon GET
-app.MapGet("/api/reservations", ([FromServices] List<Reservation> reservations) =>
-{
-    return Results.Ok(reservations);
-});
-
-// Rezervasyon POST
-app.MapPost("/api/reservations", (Reservation reservation, [FromServices] List<Reservation> reservations) =>
-{
-    reservations.Add(reservation);
-    return Results.Ok(new { message = "Rezervasyon eklendi!" });
-});
-
-// Kayıt (Signup)
+// Signup - Kayıt Olma
 app.MapPost("/api/signup", async (User user, IConfiguration configuration) =>
 {
     var connectionString = configuration.GetConnectionString("DefaultConnection");
+    Console.WriteLine("Bağlantı: " + connectionString);
+    Console.WriteLine($"Kullanıcı adı: {user.Username}, Email: {user.Email}");
 
     using var conn = new SqlConnection(connectionString);
     var query = "INSERT INTO Users (Username, Email, PasswordHash) VALUES (@Username, @Email, @PasswordHash)";
@@ -49,23 +35,25 @@ app.MapPost("/api/signup", async (User user, IConfiguration configuration) =>
     cmd.Parameters.AddWithValue("@Username", user.Username);
     cmd.Parameters.AddWithValue("@Email", user.Email);
 
-    // Şifre null gelirse boş string kullanılır (null hatası engellenir)
-    string hashedPassword = BCrypt.Net.BCrypt.HashPassword(user.PasswordHash ?? "");
+    string hashedPassword = BCrypt.Net.BCrypt.HashPassword(user.Password ?? "");
     cmd.Parameters.AddWithValue("@PasswordHash", hashedPassword);
 
     try
     {
         await conn.OpenAsync();
-        await cmd.ExecuteNonQueryAsync();
+        int rowsAffected = await cmd.ExecuteNonQueryAsync();
+        Console.WriteLine("Eklenen satır sayısı: " + rowsAffected);
+
         return Results.Ok(new { message = "Kayıt başarılı!" });
     }
     catch (SqlException ex)
     {
-        return Results.BadRequest(new { message = "Kayıt başarısız: " + ex.Message, inner = ex.InnerException?.Message });
+        Console.WriteLine("HATA: " + ex.Message);
+        return Results.BadRequest(new { message = "Kayıt başarısız: " + ex.Message });
     }
 });
 
-// Giriş (Login)
+// Login - Giriş Yapma
 app.MapPost("/api/login", async (LoginRequest request, IConfiguration configuration) =>
 {
     var connectionString = configuration.GetConnectionString("DefaultConnection");
@@ -83,7 +71,7 @@ app.MapPost("/api/login", async (LoginRequest request, IConfiguration configurat
         if (result != null)
         {
             var storedPasswordHash = result.ToString();
-            var isPasswordValid = BCrypt.Net.BCrypt.Verify(request.PasswordHash, storedPasswordHash);
+            var isPasswordValid = BCrypt.Net.BCrypt.Verify(request.Password, storedPasswordHash);
 
             if (isPasswordValid)
             {
@@ -101,7 +89,7 @@ app.MapPost("/api/login", async (LoginRequest request, IConfiguration configurat
     }
     catch (SqlException ex)
     {
-        return Results.BadRequest(new { message = "Hata: " + ex.Message, inner = ex.InnerException?.Message });
+        return Results.BadRequest(new { message = "Hata: " + ex.Message });
     }
 });
 
@@ -112,20 +100,11 @@ public class User
 {
     public string Username { get; set; }
     public string Email { get; set; }
-    public string PasswordHash { get; set; }
+    public string Password { get; set; } // Ham şifre
 }
 
 public class LoginRequest
 {
     public string Email { get; set; }
-    public string PasswordHash { get; set; }
-}
-
-public class Reservation
-{
-    public int Id { get; set; }
-    public string GuestName { get; set; }
-    public string HouseName { get; set; }
-    public DateTime CheckInDate { get; set; }
-    public DateTime CheckOutDate { get; set; }
+    public string Password { get; set; } // Ham şifre
 }

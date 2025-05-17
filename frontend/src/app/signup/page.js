@@ -6,40 +6,64 @@ import { useRouter } from "next/navigation";
 export default function SignupPage() {
   const router = useRouter();
 
-  // Form inputları için state'ler
+  // Tenant state'leri
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [companyName, setCompanyName] = useState("");
+
+  // Owner state'leri
+  const [ownerCompanyName, setOwnerCompanyName] = useState("");
   const [ownerEmail, setOwnerEmail] = useState("");
   const [ownerPassword, setOwnerPassword] = useState("");
 
+  // Kullanıcı türü: "tenant" veya "owner"
   const [userType, setUserType] = useState(null);
 
-  // Signup işlemi için handleSignup fonksiyonu
-  const handleSignup = async (e) => {
-    e.preventDefault(); // Sayfanın yenilenmesini engelle
+  // Tenant için signup handler
+  const handleSignupTenant = async (e) => {
+    e.preventDefault();
 
     const response = await fetch("http://localhost:5254/api/signup", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         username: name,
-        email,
-        password: password, // Send plain password for now
+        email: email,
+        password: password,
       }),
     });
 
     const data = await response.json();
-
-    // API'den gelen cevabı konsola yazdırıyoruz
     console.log(data);
 
     if (response.ok) {
       alert("Kayıt başarılı!");
-      router.push("/login"); // Başarılı girişte login sayfasına yönlendir
+      router.push("/login");
+    } else {
+      alert(data.message || "Kayıt başarısız");
+    }
+  };
+
+  // Owner için signup handler
+  const handleSignupOwner = async (e) => {
+    e.preventDefault();
+
+    const response = await fetch("http://localhost:5254/api/signup", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        username: ownerCompanyName,
+        email: ownerEmail,
+        password: ownerPassword,
+      }),
+    });
+
+    const data = await response.json();
+    console.log(data);
+
+    if (response.ok) {
+      alert("Kayıt başarılı!");
+      router.push("/login");
     } else {
       alert(data.message || "Kayıt başarısız");
     }
@@ -48,7 +72,7 @@ export default function SignupPage() {
   return (
     <div className="relative flex items-center justify-center min-h-screen bg-gray-100 px-4">
       <img
-        src="/tinyhouse3.jpeg"
+        src="/Unknown-69.jpg"
         alt="Background"
         className="absolute inset-0 w-full h-full object-cover opacity-82 z-0"
       />
@@ -78,7 +102,7 @@ export default function SignupPage() {
         )}
 
         {userType === "tenant" && (
-          <form className="w-full" onSubmit={handleSignup}>
+          <form className="w-full" onSubmit={handleSignupTenant}>
             <button
               type="button"
               onClick={() => setUserType(null)}
@@ -129,7 +153,7 @@ export default function SignupPage() {
         )}
 
         {userType === "owner" && (
-          <form className="w-full">
+          <form className="w-full" onSubmit={handleSignupOwner}>
             <button
               type="button"
               onClick={() => setUserType(null)}
@@ -146,6 +170,8 @@ export default function SignupPage() {
                 type="text"
                 className="w-full px-4 py-2 border rounded"
                 placeholder="Firma veya adınız"
+                value={ownerCompanyName}
+                onChange={(e) => setOwnerCompanyName(e.target.value)}
               />
             </div>
             <div className="mb-4">
@@ -154,6 +180,8 @@ export default function SignupPage() {
                 type="email"
                 className="w-full px-4 py-2 border rounded"
                 placeholder="Email adresiniz"
+                value={ownerEmail}
+                onChange={(e) => setOwnerEmail(e.target.value)}
               />
             </div>
             <div className="mb-4">
@@ -162,6 +190,8 @@ export default function SignupPage() {
                 type="password"
                 className="w-full px-4 py-2 border rounded"
                 placeholder="Şifreniz"
+                value={ownerPassword}
+                onChange={(e) => setOwnerPassword(e.target.value)}
               />
             </div>
             <button
