@@ -1,12 +1,434 @@
 {
   "Version": 1,
-  "Hash": "KvHOo5kMW9jTGuGBrmhGdXuYzweoU5ZoThezt6L9uIQ=",
+  "Hash": "SYW8JM3RhRu1cvNCiib38A+liDuLpDL14DdsGHHxFd8=",
   "Source": "Api",
   "BasePath": "_content/Api",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
-  "Assets": [],
-  "Endpoints": []
+  "DiscoveryPatterns": [
+    {
+      "Name": "Api/wwwroot",
+      "Source": "Api",
+      "ContentRoot": "/Users/selversude/Desktop/tinyHouse/tinyhouse/Api/wwwroot/",
+      "BasePath": "_content/Api",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "/Users/selversude/Desktop/tinyHouse/tinyhouse/Api/wwwroot/images/0d2f559c-4754-455a-a0a6-485d89113fde.webp",
+      "SourceId": "Api",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/selversude/Desktop/tinyHouse/tinyhouse/Api/wwwroot/",
+      "BasePath": "_content/Api",
+      "RelativePath": "images/0d2f559c-4754-455a-a0a6-485d89113fde#[.{fingerprint}]?.webp",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "991u4osef7",
+      "Integrity": "3YWjYxMfwEp2pUtELYpz1zN3sR5/bNQSea8Qruma1UE=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/images/0d2f559c-4754-455a-a0a6-485d89113fde.webp"
+    },
+    {
+      "Identity": "/Users/selversude/Desktop/tinyHouse/tinyhouse/Api/wwwroot/images/19eee000-5e99-4542-ab91-878a89c48d07.webp",
+      "SourceId": "Api",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/selversude/Desktop/tinyHouse/tinyhouse/Api/wwwroot/",
+      "BasePath": "_content/Api",
+      "RelativePath": "images/19eee000-5e99-4542-ab91-878a89c48d07#[.{fingerprint}]?.webp",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "991u4osef7",
+      "Integrity": "3YWjYxMfwEp2pUtELYpz1zN3sR5/bNQSea8Qruma1UE=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/images/19eee000-5e99-4542-ab91-878a89c48d07.webp"
+    },
+    {
+      "Identity": "/Users/selversude/Desktop/tinyHouse/tinyhouse/Api/wwwroot/images/786d9521-391c-4f85-8a1a-650f7ff90c91.webp",
+      "SourceId": "Api",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/selversude/Desktop/tinyHouse/tinyhouse/Api/wwwroot/",
+      "BasePath": "_content/Api",
+      "RelativePath": "images/786d9521-391c-4f85-8a1a-650f7ff90c91#[.{fingerprint}]?.webp",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "991u4osef7",
+      "Integrity": "3YWjYxMfwEp2pUtELYpz1zN3sR5/bNQSea8Qruma1UE=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/images/786d9521-391c-4f85-8a1a-650f7ff90c91.webp"
+    },
+    {
+      "Identity": "/Users/selversude/Desktop/tinyHouse/tinyhouse/Api/wwwroot/images/yeni-ev.webp",
+      "SourceId": "Api",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/selversude/Desktop/tinyHouse/tinyhouse/Api/wwwroot/",
+      "BasePath": "_content/Api",
+      "RelativePath": "images/yeni-ev#[.{fingerprint}]?.webp",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "d3dafxb49i",
+      "Integrity": "N1wpE4ieSQ7PH9yi/R6d7fMbuglXQhiiGKBgewUPgUc=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/images/yeni-ev.webp"
+    }
+  ],
+  "Endpoints": [
+    {
+      "Route": "images/0d2f559c-4754-455a-a0a6-485d89113fde.991u4osef7.webp",
+      "AssetFile": "/Users/selversude/Desktop/tinyHouse/tinyhouse/Api/wwwroot/images/0d2f559c-4754-455a-a0a6-485d89113fde.webp",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "278976"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/webp"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"3YWjYxMfwEp2pUtELYpz1zN3sR5/bNQSea8Qruma1UE=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 20 May 2025 10:59:16 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "991u4osef7"
+        },
+        {
+          "Name": "label",
+          "Value": "images/0d2f559c-4754-455a-a0a6-485d89113fde.webp"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-3YWjYxMfwEp2pUtELYpz1zN3sR5/bNQSea8Qruma1UE="
+        }
+      ]
+    },
+    {
+      "Route": "images/0d2f559c-4754-455a-a0a6-485d89113fde.webp",
+      "AssetFile": "/Users/selversude/Desktop/tinyHouse/tinyhouse/Api/wwwroot/images/0d2f559c-4754-455a-a0a6-485d89113fde.webp",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "278976"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/webp"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"3YWjYxMfwEp2pUtELYpz1zN3sR5/bNQSea8Qruma1UE=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 20 May 2025 10:59:16 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-3YWjYxMfwEp2pUtELYpz1zN3sR5/bNQSea8Qruma1UE="
+        }
+      ]
+    },
+    {
+      "Route": "images/19eee000-5e99-4542-ab91-878a89c48d07.991u4osef7.webp",
+      "AssetFile": "/Users/selversude/Desktop/tinyHouse/tinyhouse/Api/wwwroot/images/19eee000-5e99-4542-ab91-878a89c48d07.webp",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "278976"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/webp"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"3YWjYxMfwEp2pUtELYpz1zN3sR5/bNQSea8Qruma1UE=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 20 May 2025 10:53:35 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "991u4osef7"
+        },
+        {
+          "Name": "label",
+          "Value": "images/19eee000-5e99-4542-ab91-878a89c48d07.webp"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-3YWjYxMfwEp2pUtELYpz1zN3sR5/bNQSea8Qruma1UE="
+        }
+      ]
+    },
+    {
+      "Route": "images/19eee000-5e99-4542-ab91-878a89c48d07.webp",
+      "AssetFile": "/Users/selversude/Desktop/tinyHouse/tinyhouse/Api/wwwroot/images/19eee000-5e99-4542-ab91-878a89c48d07.webp",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "278976"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/webp"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"3YWjYxMfwEp2pUtELYpz1zN3sR5/bNQSea8Qruma1UE=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 20 May 2025 10:53:35 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-3YWjYxMfwEp2pUtELYpz1zN3sR5/bNQSea8Qruma1UE="
+        }
+      ]
+    },
+    {
+      "Route": "images/786d9521-391c-4f85-8a1a-650f7ff90c91.991u4osef7.webp",
+      "AssetFile": "/Users/selversude/Desktop/tinyHouse/tinyhouse/Api/wwwroot/images/786d9521-391c-4f85-8a1a-650f7ff90c91.webp",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "278976"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/webp"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"3YWjYxMfwEp2pUtELYpz1zN3sR5/bNQSea8Qruma1UE=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 20 May 2025 11:03:59 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "991u4osef7"
+        },
+        {
+          "Name": "label",
+          "Value": "images/786d9521-391c-4f85-8a1a-650f7ff90c91.webp"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-3YWjYxMfwEp2pUtELYpz1zN3sR5/bNQSea8Qruma1UE="
+        }
+      ]
+    },
+    {
+      "Route": "images/786d9521-391c-4f85-8a1a-650f7ff90c91.webp",
+      "AssetFile": "/Users/selversude/Desktop/tinyHouse/tinyhouse/Api/wwwroot/images/786d9521-391c-4f85-8a1a-650f7ff90c91.webp",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "278976"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/webp"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"3YWjYxMfwEp2pUtELYpz1zN3sR5/bNQSea8Qruma1UE=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 20 May 2025 11:03:59 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-3YWjYxMfwEp2pUtELYpz1zN3sR5/bNQSea8Qruma1UE="
+        }
+      ]
+    },
+    {
+      "Route": "images/yeni-ev.d3dafxb49i.webp",
+      "AssetFile": "/Users/selversude/Desktop/tinyHouse/tinyhouse/Api/wwwroot/images/yeni-ev.webp",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "112114"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/webp"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"N1wpE4ieSQ7PH9yi/R6d7fMbuglXQhiiGKBgewUPgUc=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 20 May 2025 09:20:53 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "d3dafxb49i"
+        },
+        {
+          "Name": "label",
+          "Value": "images/yeni-ev.webp"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-N1wpE4ieSQ7PH9yi/R6d7fMbuglXQhiiGKBgewUPgUc="
+        }
+      ]
+    },
+    {
+      "Route": "images/yeni-ev.webp",
+      "AssetFile": "/Users/selversude/Desktop/tinyHouse/tinyhouse/Api/wwwroot/images/yeni-ev.webp",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "112114"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/webp"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"N1wpE4ieSQ7PH9yi/R6d7fMbuglXQhiiGKBgewUPgUc=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 20 May 2025 09:20:53 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-N1wpE4ieSQ7PH9yi/R6d7fMbuglXQhiiGKBgewUPgUc="
+        }
+      ]
+    }
+  ]
 }

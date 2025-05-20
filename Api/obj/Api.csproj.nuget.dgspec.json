@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/selversude/Desktop/tinyHouse/Api/Api.csproj": {}
+    "/Users/selversude/Desktop/tinyHouse/tinyhouse/Api/Api.csproj": {}
   },
   "projects": {
-    "/Users/selversude/Desktop/tinyHouse/Api/Api.csproj": {
+    "/Users/selversude/Desktop/tinyHouse/tinyhouse/Api/Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/selversude/Desktop/tinyHouse/Api/Api.csproj",
+        "projectUniqueName": "/Users/selversude/Desktop/tinyHouse/tinyhouse/Api/Api.csproj",
         "projectName": "Api",
-        "projectPath": "/Users/selversude/Desktop/tinyHouse/Api/Api.csproj",
+        "projectPath": "/Users/selversude/Desktop/tinyHouse/tinyhouse/Api/Api.csproj",
         "packagesPath": "/Users/selversude/.nuget/packages/",
-        "outputPath": "/Users/selversude/Desktop/tinyHouse/Api/obj/",
+        "outputPath": "/Users/selversude/Desktop/tinyHouse/tinyhouse/Api/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/selversude/.nuget/NuGet/NuGet.Config"

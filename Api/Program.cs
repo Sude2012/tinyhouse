@@ -21,6 +21,7 @@ builder.Services.AddCors(options =>
 var app = builder.Build();
 
 app.UseCors("AllowAll");
+app.UseStaticFiles();
 
 // Signup - Kayıt Olma
 app.MapPost("/api/signup", async (User user, IConfiguration configuration) =>
@@ -52,6 +53,64 @@ app.MapPost("/api/signup", async (User user, IConfiguration configuration) =>
         return Results.BadRequest(new { message = "Kayıt başarısız: " + ex.Message });
     }
 });
+
+
+// Ev Ekleme
+app.MapPost("/api/houses", async (HttpRequest request, IConfiguration configuration) =>
+{
+    var form = await request.ReadFormAsync();
+
+  var city = form["City"].ToString();
+var country = form["Country"].ToString();
+var bedroomCount = int.Parse(form["BedroomCount"].ToString());
+var bathroomCount = int.Parse(form["BathroomCount"].ToString());
+var price = decimal.Parse(form["PricePerNight"].ToString());
+var rating = decimal.Parse(form["Rating"].ToString());
+    var image = form.Files["Image"];
+
+    if (image == null || image.Length == 0)
+        return Results.BadRequest(new { message = "Görsel dosyası gereklidir." });
+
+    // wwwroot/images klasörüne kaydet
+    var imagesPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images");
+    Directory.CreateDirectory(imagesPath); // yoksa oluştur
+
+    var fileName = Guid.NewGuid().ToString() + Path.GetExtension(image.FileName);
+    var filePath = Path.Combine(imagesPath, fileName);
+
+    using (var stream = new FileStream(filePath, FileMode.Create))
+    {
+        await image.CopyToAsync(stream);
+    }
+
+    var imagePath = $"/images/{fileName}";
+
+    // Veritabanına ekle
+    var connectionString = configuration.GetConnectionString("DefaultConnection");
+    using var conn = new SqlConnection(connectionString);
+    var query = @"INSERT INTO Houses (City, Country, BedroomCount, BathroomCount, PricePerNight, Rating, ImagePath) 
+                  VALUES (@City, @Country, @BedroomCount, @BathroomCount, @PricePerNight, @Rating, @ImagePath)";
+    var cmd = new SqlCommand(query, conn);
+   cmd.Parameters.AddWithValue("@City", city);
+cmd.Parameters.AddWithValue("@Country", country);
+cmd.Parameters.AddWithValue("@BedroomCount", bedroomCount);
+cmd.Parameters.AddWithValue("@BathroomCount", bathroomCount);
+cmd.Parameters.AddWithValue("@PricePerNight", price);
+cmd.Parameters.AddWithValue("@Rating", rating);
+    cmd.Parameters.AddWithValue("@ImagePath", imagePath);
+
+    try
+    {
+        await conn.OpenAsync();
+        await cmd.ExecuteNonQueryAsync();
+        return Results.Ok(new { message = "Ev başarıyla eklendi." });
+    }
+    catch (SqlException ex)
+    {
+        return Results.BadRequest(new { message = "Veritabanı hatası: " + ex.Message });
+    }
+});
+
 
 // Login - Giriş Yapma
 app.MapPost("/api/login", async (LoginRequest request, IConfiguration configuration) =>
@@ -108,3 +167,16 @@ public class LoginRequest
     public string Email { get; set; }
     public string Password { get; set; } // Ham şifre
 }
+
+public class House
+{
+    public string City { get; set; }
+    public string Country { get; set; }
+    public int BedroomCount { get; set; }
+    public int BathroomCount { get; set; }
+    public decimal PricePerNight { get; set; }
+    public decimal Rating { get; set; }
+    public IFormFile Image { get; set; } // Görsel dosyası
+}
+
+

@@ -1,0 +1,41 @@
+{
+  "Files": [
+    {
+      "Id": "/Users/selversude/Desktop/tinyHouse/tinyhouse/Api/wwwroot/images/0d2f559c-4754-455a-a0a6-485d89113fde.webp",
+      "PackagePath": "staticwebassets/images/0d2f559c-4754-455a-a0a6-485d89113fde.webp"
+    },
+    {
+      "Id": "/Users/selversude/Desktop/tinyHouse/tinyhouse/Api/wwwroot/images/19eee000-5e99-4542-ab91-878a89c48d07.webp",
+      "PackagePath": "staticwebassets/images/19eee000-5e99-4542-ab91-878a89c48d07.webp"
+    },
+    {
+      "Id": "/Users/selversude/Desktop/tinyHouse/tinyhouse/Api/wwwroot/images/786d9521-391c-4f85-8a1a-650f7ff90c91.webp",
+      "PackagePath": "staticwebassets/images/786d9521-391c-4f85-8a1a-650f7ff90c91.webp"
+    },
+    {
+      "Id": "/Users/selversude/Desktop/tinyHouse/tinyhouse/Api/wwwroot/images/yeni-ev.webp",
+      "PackagePath": "staticwebassets/images/yeni-ev.webp"
+    },
+    {
+      "Id": "obj/Debug/net9.0/staticwebassets/msbuild.Api.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
+    },
+    {
+      "Id": "obj/Debug/net9.0/staticwebassets/msbuild.Api.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj/Debug/net9.0/staticwebassets/msbuild.build.Api.props",
+      "PackagePath": "build\\Api.props"
+    },
+    {
+      "Id": "obj/Debug/net9.0/staticwebassets/msbuild.buildMultiTargeting.Api.props",
+      "PackagePath": "buildMultiTargeting\\Api.props"
+    },
+    {
+      "Id": "obj/Debug/net9.0/staticwebassets/msbuild.buildTransitive.Api.props",
+      "PackagePath": "buildTransitive\\Api.props"
+    }
+  ],
+  "ElementsToRemove": []
+}
