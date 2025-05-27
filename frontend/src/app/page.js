@@ -5,6 +5,7 @@ import { IoIosArrowDown } from "react-icons/io";
 import { FiSearch } from "react-icons/fi";
 import { FaBed, FaBath, FaStar, FaHeart, FaRegHeart } from "react-icons/fa";
 
+// Statik örnek evler
 const houses = [
   {
     id: 1,
@@ -122,8 +123,13 @@ const HomePage = () => {
   const [childCount, setChildCount] = useState(0);
   const dropdownRef = useRef(null);
 
+  // Statik evler için favori takibi
   const [favorites, setFavorites] = useState(houses.map(() => false));
 
+  // Veritabanından gelen evler
+  const [dbHouses, setDbHouses] = useState([]);
+
+  // Favori toggle
   const toggleFavorite = (index) => {
     const updatedFavorites = [...favorites];
     updatedFavorites[index] = !updatedFavorites[index];
@@ -132,6 +138,17 @@ const HomePage = () => {
 
   const totalGuests = adultCount + childCount;
 
+  // DB'den evleri çek
+  useEffect(() => {
+    const storedEmail = localStorage.getItem("email");
+    if (storedEmail) {
+      fetch(`http://localhost:5254/api/houses?email=${storedEmail}`)
+        .then((res) => res.json())
+        .then((data) => setDbHouses(data || []));
+    }
+  }, []);
+
+  // Kişi dropdownunu dışarı tıklayınca kapat
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -142,21 +159,36 @@ const HomePage = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  // Statik + dinamik evleri tek dizi olarak birleştiriyoruz
+  const allHouses = [
+    ...houses,
+    ...dbHouses.map((ev) => ({
+      id: ev.id,
+      location: `${ev.city}, ${ev.country}`,
+      beds: ev.bedroomCount,
+      baths: ev.bathroomCount,
+      price: ev.pricePerNight,
+      rating: ev.rating,
+      image: "http://localhost:5254" + ev.coverImageUrl,
+      // NOT: Eğer odalar (interior) gerekirse ekleyebilirsin.
+    })),
+  ];
+
   return (
     <div
       className="flex flex-col items-center px-4 py-8 min-h-screen"
-      style={{ backgroundColor: "#E6DCDC" }}
+      style={{ backgroundColor: "#FFF6F6" }}
     >
-      <h1 className="text-4xl font-bold mb-6 text-[#260B01]">TİNY HOUSE</h1>
+      <h1 className="text-4xl font-bold mb-6 text-[black]">TİNY HOUSE</h1>
 
       {/* Arama Alanı */}
       <div
         className="flex flex-wrap gap-4 p-4 rounded-md w-full max-w-4xl justify-center"
-        style={{ backgroundColor: "#B39F8B" }}
+        style={{ backgroundColor: "#FFDADB" }}
       >
         {/* Yer */}
         <div className="flex flex-col items-start w-40">
-          <label htmlFor="location" className="text-[#260B01]">
+          <label htmlFor="location" className="text-[black]">
             Yer
           </label>
           <input
@@ -164,7 +196,7 @@ const HomePage = () => {
             id="location"
             placeholder="Yer"
             className="border px-3 py-2 rounded w-full text-[#260B01]"
-            style={{ backgroundColor: "#B39F8B" }}
+            style={{ backgroundColor: "#FFF6F6" }}
           />
         </div>
 
@@ -177,7 +209,7 @@ const HomePage = () => {
             type="date"
             id="check-in"
             className="border px-3 py-2 rounded w-full text-[#260B01]"
-            style={{ backgroundColor: "#B39F8B" }}
+            style={{ backgroundColor: "#FFF6F6" }}
           />
         </div>
 
@@ -190,7 +222,7 @@ const HomePage = () => {
             type="date"
             id="check-out"
             className="border px-3 py-2 rounded w-full text-[#260B01]"
-            style={{ backgroundColor: "#B39F8B" }}
+            style={{ backgroundColor: "#FFF6F6" }}
           />
         </div>
 
@@ -202,7 +234,7 @@ const HomePage = () => {
           <label className="text-[#260B01]">Kişi Sayısı</label>
           <div
             className="border px-3 py-2 rounded w-full cursor-pointer flex justify-between items-center text-[#260B01]"
-            style={{ backgroundColor: "#B39F8B" }}
+            style={{ backgroundColor: "#FFF6F6" }}
             onClick={() => setShowGuestDropdown(!showGuestDropdown)}
           >
             <span>{totalGuests} kişi</span>
@@ -263,10 +295,10 @@ const HomePage = () => {
 
       {/* Ev Kartları */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-10 w-full max-w-6xl text-[#260B01]">
-        {houses.map((house, index) => (
+        {allHouses.map((house, index) => (
           <Link
-            key={house.id}
-            href={`/houses/home${index + 1}`}
+            key={house.id + "_" + index}
+            href={`/houses/home${house.id}`}
             className="block bg-white rounded-lg overflow-hidden shadow-md relative cursor-pointer hover:shadow-xl transition-shadow"
           >
             <img
@@ -274,17 +306,20 @@ const HomePage = () => {
               alt={`Ev ${house.id}`}
               className="w-full h-48 object-cover"
             />
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                toggleFavorite(index);
-              }}
-              className="absolute top-2 right-2 bg-white rounded-full p-2 shadow-md text-red-500 text-xl"
-              aria-label="Favorilere ekle"
-            >
-              {favorites[index] ? <FaHeart /> : <FaRegHeart />}
-            </button>
+            {/* Favori sadece statik evlerde */}
+            {index < houses.length && (
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  toggleFavorite(index);
+                }}
+                className="absolute top-2 right-2 bg-white rounded-full p-2 shadow-md text-red-500 text-xl"
+                aria-label="Favorilere ekle"
+              >
+                {favorites[index] ? <FaHeart /> : <FaRegHeart />}
+              </button>
+            )}
             <div className="p-4">
               <h2 className="text-xl font-semibold mb-1">{house.location}</h2>
               <div className="flex items-center gap-4 text-sm mb-2">
@@ -296,7 +331,7 @@ const HomePage = () => {
                 </div>
               </div>
               <div className="flex justify-between items-center">
-                <span className="font-bold">${house.price}/gece</span>
+                <span className="font-bold">₺{house.price}/gece</span>
                 <span className="flex items-center gap-1 text-yellow-500">
                   <FaStar /> {house.rating}
                 </span>

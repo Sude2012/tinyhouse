@@ -28,6 +28,7 @@ export default function LoginForm({ userType }) {
       const data = await response.json();
 
       if (response.ok) {
+        localStorage.setItem("email", email);
         alert(`${userType} olarak giriş başarılı!`);
         console.log("Başarılı giriş:", data);
 

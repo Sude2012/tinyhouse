@@ -1,6 +1,14 @@
 {
   "Files": [
     {
+      "Id": "/Users/selversude/Desktop/tinyHouse/tinyhouse/Api/wwwroot/images/03afab71-b918-4414-af3b-619ce55241cc.jpg",
+      "PackagePath": "staticwebassets/images/03afab71-b918-4414-af3b-619ce55241cc.jpg"
+    },
+    {
+      "Id": "/Users/selversude/Desktop/tinyHouse/tinyhouse/Api/wwwroot/images/0418ada8-acea-42fb-84a0-63ce0f1ac5c6.jpg",
+      "PackagePath": "staticwebassets/images/0418ada8-acea-42fb-84a0-63ce0f1ac5c6.jpg"
+    },
+    {
       "Id": "/Users/selversude/Desktop/tinyHouse/tinyhouse/Api/wwwroot/images/0d2f559c-4754-455a-a0a6-485d89113fde.webp",
       "PackagePath": "staticwebassets/images/0d2f559c-4754-455a-a0a6-485d89113fde.webp"
     },
@@ -9,8 +17,108 @@
       "PackagePath": "staticwebassets/images/19eee000-5e99-4542-ab91-878a89c48d07.webp"
     },
     {
+      "Id": "/Users/selversude/Desktop/tinyHouse/tinyhouse/Api/wwwroot/images/36381f46-8e84-4b7c-afd2-c7e79edf68c7.jpg",
+      "PackagePath": "staticwebassets/images/36381f46-8e84-4b7c-afd2-c7e79edf68c7.jpg"
+    },
+    {
+      "Id": "/Users/selversude/Desktop/tinyHouse/tinyhouse/Api/wwwroot/images/3d48beec-f832-4d78-a42e-8e3bfb1df7c7.jpg",
+      "PackagePath": "staticwebassets/images/3d48beec-f832-4d78-a42e-8e3bfb1df7c7.jpg"
+    },
+    {
+      "Id": "/Users/selversude/Desktop/tinyHouse/tinyhouse/Api/wwwroot/images/4d2d6d0f-d791-424c-986a-2d52ac15101a.jpg",
+      "PackagePath": "staticwebassets/images/4d2d6d0f-d791-424c-986a-2d52ac15101a.jpg"
+    },
+    {
+      "Id": "/Users/selversude/Desktop/tinyHouse/tinyhouse/Api/wwwroot/images/4e58357a-daad-487a-bdd1-a780468dab8e.jpg",
+      "PackagePath": "staticwebassets/images/4e58357a-daad-487a-bdd1-a780468dab8e.jpg"
+    },
+    {
+      "Id": "/Users/selversude/Desktop/tinyHouse/tinyhouse/Api/wwwroot/images/4e8eaa7e-8cb7-4a3e-a34e-c5e29da62b49.jpg",
+      "PackagePath": "staticwebassets/images/4e8eaa7e-8cb7-4a3e-a34e-c5e29da62b49.jpg"
+    },
+    {
+      "Id": "/Users/selversude/Desktop/tinyHouse/tinyhouse/Api/wwwroot/images/514e1c5d-503e-4965-8d5a-5cd7f2d301d9.jpg",
+      "PackagePath": "staticwebassets/images/514e1c5d-503e-4965-8d5a-5cd7f2d301d9.jpg"
+    },
+    {
+      "Id": "/Users/selversude/Desktop/tinyHouse/tinyhouse/Api/wwwroot/images/51f6d4df-c471-4663-b468-f63335a567b5.jpg",
+      "PackagePath": "staticwebassets/images/51f6d4df-c471-4663-b468-f63335a567b5.jpg"
+    },
+    {
+      "Id": "/Users/selversude/Desktop/tinyHouse/tinyhouse/Api/wwwroot/images/54e3c083-a3df-4aaa-a7fa-aef524c4ad8d.jpg",
+      "PackagePath": "staticwebassets/images/54e3c083-a3df-4aaa-a7fa-aef524c4ad8d.jpg"
+    },
+    {
+      "Id": "/Users/selversude/Desktop/tinyHouse/tinyhouse/Api/wwwroot/images/60b1c91a-df6f-49bf-9302-918f1d008a3e.jpg",
+      "PackagePath": "staticwebassets/images/60b1c91a-df6f-49bf-9302-918f1d008a3e.jpg"
+    },
+    {
+      "Id": "/Users/selversude/Desktop/tinyHouse/tinyhouse/Api/wwwroot/images/620ce59a-76ad-4e30-80f2-93818fcf2a64.jpg",
+      "PackagePath": "staticwebassets/images/620ce59a-76ad-4e30-80f2-93818fcf2a64.jpg"
+    },
+    {
+      "Id": "/Users/selversude/Desktop/tinyHouse/tinyhouse/Api/wwwroot/images/6c991c0c-2ea4-4b70-9916-84e00609f7ce.jpg",
+      "PackagePath": "staticwebassets/images/6c991c0c-2ea4-4b70-9916-84e00609f7ce.jpg"
+    },
+    {
       "Id": "/Users/selversude/Desktop/tinyHouse/tinyhouse/Api/wwwroot/images/786d9521-391c-4f85-8a1a-650f7ff90c91.webp",
       "PackagePath": "staticwebassets/images/786d9521-391c-4f85-8a1a-650f7ff90c91.webp"
+    },
+    {
+      "Id": "/Users/selversude/Desktop/tinyHouse/tinyhouse/Api/wwwroot/images/8f706dd8-cd8e-41cb-bb09-8550d88933e7.jpg",
+      "PackagePath": "staticwebassets/images/8f706dd8-cd8e-41cb-bb09-8550d88933e7.jpg"
+    },
+    {
+      "Id": "/Users/selversude/Desktop/tinyHouse/tinyhouse/Api/wwwroot/images/9b2fc05a-4413-4590-b156-dcc7059e98ba.jpg",
+      "PackagePath": "staticwebassets/images/9b2fc05a-4413-4590-b156-dcc7059e98ba.jpg"
+    },
+    {
+      "Id": "/Users/selversude/Desktop/tinyHouse/tinyhouse/Api/wwwroot/images/9d6c2494-1c55-4f37-8173-d5bdb81d38fe.jpg",
+      "PackagePath": "staticwebassets/images/9d6c2494-1c55-4f37-8173-d5bdb81d38fe.jpg"
+    },
+    {
+      "Id": "/Users/selversude/Desktop/tinyHouse/tinyhouse/Api/wwwroot/images/b6363c7e-7ee9-4a98-b5bd-bf2b82f96289.jpg",
+      "PackagePath": "staticwebassets/images/b6363c7e-7ee9-4a98-b5bd-bf2b82f96289.jpg"
+    },
+    {
+      "Id": "/Users/selversude/Desktop/tinyHouse/tinyhouse/Api/wwwroot/images/bef20176-cd87-4c75-8c85-b2aaf8e354c8.jpg",
+      "PackagePath": "staticwebassets/images/bef20176-cd87-4c75-8c85-b2aaf8e354c8.jpg"
+    },
+    {
+      "Id": "/Users/selversude/Desktop/tinyHouse/tinyhouse/Api/wwwroot/images/c33db266-8822-4769-89bf-5761f1b42218.jpg",
+      "PackagePath": "staticwebassets/images/c33db266-8822-4769-89bf-5761f1b42218.jpg"
+    },
+    {
+      "Id": "/Users/selversude/Desktop/tinyHouse/tinyhouse/Api/wwwroot/images/cfe7d4b9-9f57-4e85-a3dd-532da451c9e5.jpg",
+      "PackagePath": "staticwebassets/images/cfe7d4b9-9f57-4e85-a3dd-532da451c9e5.jpg"
+    },
+    {
+      "Id": "/Users/selversude/Desktop/tinyHouse/tinyhouse/Api/wwwroot/images/d8304d24-f5b0-4a44-b595-fc3acb5959c0.jpg",
+      "PackagePath": "staticwebassets/images/d8304d24-f5b0-4a44-b595-fc3acb5959c0.jpg"
+    },
+    {
+      "Id": "/Users/selversude/Desktop/tinyHouse/tinyhouse/Api/wwwroot/images/e408db0c-338e-44d9-9e93-896283d4ab95.jpg",
+      "PackagePath": "staticwebassets/images/e408db0c-338e-44d9-9e93-896283d4ab95.jpg"
+    },
+    {
+      "Id": "/Users/selversude/Desktop/tinyHouse/tinyhouse/Api/wwwroot/images/f1c31ceb-7db4-405f-9bf9-bd25aa85af17.jpg",
+      "PackagePath": "staticwebassets/images/f1c31ceb-7db4-405f-9bf9-bd25aa85af17.jpg"
+    },
+    {
+      "Id": "/Users/selversude/Desktop/tinyHouse/tinyhouse/Api/wwwroot/images/f2e8e58a-4cc2-400e-a0e6-d9ff67bf5ca4.jpg",
+      "PackagePath": "staticwebassets/images/f2e8e58a-4cc2-400e-a0e6-d9ff67bf5ca4.jpg"
+    },
+    {
+      "Id": "/Users/selversude/Desktop/tinyHouse/tinyhouse/Api/wwwroot/images/f95cdbc5-b8dd-484f-85bf-3fd9791edc81.jpg",
+      "PackagePath": "staticwebassets/images/f95cdbc5-b8dd-484f-85bf-3fd9791edc81.jpg"
+    },
+    {
+      "Id": "/Users/selversude/Desktop/tinyHouse/tinyhouse/Api/wwwroot/images/fbdbb5b8-f2e3-42c5-b5bc-206f52cbdb56.jpg",
+      "PackagePath": "staticwebassets/images/fbdbb5b8-f2e3-42c5-b5bc-206f52cbdb56.jpg"
+    },
+    {
+      "Id": "/Users/selversude/Desktop/tinyHouse/tinyhouse/Api/wwwroot/images/ff654608-4ed1-4c58-b6b8-c617b16773b4.jpg",
+      "PackagePath": "staticwebassets/images/ff654608-4ed1-4c58-b6b8-c617b16773b4.jpg"
     },
     {
       "Id": "/Users/selversude/Desktop/tinyHouse/tinyhouse/Api/wwwroot/images/yeni-ev.webp",

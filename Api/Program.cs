@@ -55,60 +55,233 @@ app.MapPost("/api/signup", async (User user, IConfiguration configuration) =>
 });
 
 
+// Evleri ID'ye göre silme
+app.MapDelete("/api/houses/{id:int}", async (int id, IConfiguration configuration) =>
+{
+    var connectionString = configuration.GetConnectionString("DefaultConnection");
+    using var conn = new SqlConnection(connectionString);
+    await conn.OpenAsync();
+
+    var cmd = new SqlCommand("DELETE FROM Houses WHERE Id = @Id", conn);
+    cmd.Parameters.AddWithValue("@Id", id);
+
+    int affected = await cmd.ExecuteNonQueryAsync();
+    return affected == 0 
+        ? Results.NotFound(new { message = "Ev bulunamadı." }) 
+        : Results.Ok(new { message = "Ev başarıyla silindi." });
+});
+
+// Ev güncelleme (PUT)
+app.MapPut("/api/houses/{id:int}", async (HttpRequest request, int id, IConfiguration configuration) =>
+{
+    var form = await request.ReadFormAsync();
+
+    string city = form["City"];
+    string country = form["Country"];
+    string description = form["Description"];
+    int bedroomCount = int.Parse(form["BedroomCount"]);
+    int bathroomCount = int.Parse(form["BathroomCount"]);
+    decimal price = decimal.Parse(form["PricePerNight"]);
+    decimal rating = decimal.Parse(form["Rating"]);
+
+    var connectionString = configuration.GetConnectionString("DefaultConnection");
+    using var conn = new SqlConnection(connectionString);
+    await conn.OpenAsync();
+
+    var query = @"
+        UPDATE Houses SET
+            City = @City, Country = @Country, BedroomCount = @BedroomCount,
+            BathroomCount = @BathroomCount, PricePerNight = @PricePerNight,
+            Rating = @Rating, Description = @Description
+        WHERE Id = @Id";
+
+    var cmd = new SqlCommand(query, conn);
+    cmd.Parameters.AddWithValue("@City", city);
+    cmd.Parameters.AddWithValue("@Country", country);
+    cmd.Parameters.AddWithValue("@BedroomCount", bedroomCount);
+    cmd.Parameters.AddWithValue("@BathroomCount", bathroomCount);
+    cmd.Parameters.AddWithValue("@PricePerNight", price);
+    cmd.Parameters.AddWithValue("@Rating", rating);
+    cmd.Parameters.AddWithValue("@Description", description);
+    cmd.Parameters.AddWithValue("@Id", id);
+
+    int affected = await cmd.ExecuteNonQueryAsync();
+    return affected == 0 
+        ? Results.NotFound(new { message = "Ev bulunamadı." }) 
+        : Results.Ok(new { message = "Ev başarıyla güncellendi." });
+});
+
+// Evleri email'e göre listeleme
+app.MapGet("/api/houses", async (HttpRequest request, IConfiguration configuration) =>
+{
+    var email = request.Query["email"].ToString();
+    if (string.IsNullOrWhiteSpace(email))
+        return Results.BadRequest(new { message = "Email parametresi zorunludur." });
+
+    var connectionString = configuration.GetConnectionString("DefaultConnection");
+    var houseList = new List<object>();
+
+    using var conn = new SqlConnection(connectionString);
+    await conn.OpenAsync();
+
+    var userCmd = new SqlCommand("SELECT Id FROM Users WHERE Email = @Email", conn);
+    userCmd.Parameters.AddWithValue("@Email", email);
+    var userIdObj = await userCmd.ExecuteScalarAsync();
+
+    if (userIdObj == null)
+        return Results.BadRequest(new { message = "Kullanıcı bulunamadı." });
+
+    int userId = Convert.ToInt32(userIdObj);
+
+    var query = "SELECT * FROM Houses WHERE OwnerId = @OwnerId";
+    var cmd = new SqlCommand(query, conn);
+    cmd.Parameters.AddWithValue("@OwnerId", userId);
+    var reader = await cmd.ExecuteReaderAsync();
+
+    while (await reader.ReadAsync())
+    {
+        houseList.Add(new
+        {
+            Id = Convert.ToInt32(reader["Id"]),
+            City = reader["City"].ToString(),
+            Country = reader["Country"].ToString(),
+            BedroomCount = Convert.ToInt32(reader["BedroomCount"]),
+            BathroomCount = Convert.ToInt32(reader["BathroomCount"]),
+            PricePerNight = Convert.ToDecimal(reader["PricePerNight"]),
+            Rating = Convert.ToDecimal(reader["Rating"]),
+            Description = reader["Description"].ToString(),
+            CoverImageUrl = reader["ImagePath"].ToString(),
+            InteriorImageUrls = reader["RoomImagePaths"].ToString()
+                .Split(',', StringSplitOptions.RemoveEmptyEntries)
+                .Select(url => url.Trim())
+                .ToList()
+        });
+    }
+
+    return Results.Ok(houseList);
+});
 // Ev Ekleme
 app.MapPost("/api/houses", async (HttpRequest request, IConfiguration configuration) =>
 {
     var form = await request.ReadFormAsync();
 
-  var city = form["City"].ToString();
-var country = form["Country"].ToString();
-var bedroomCount = int.Parse(form["BedroomCount"].ToString());
-var bathroomCount = int.Parse(form["BathroomCount"].ToString());
-var price = decimal.Parse(form["PricePerNight"].ToString());
-var rating = decimal.Parse(form["Rating"].ToString());
-    var image = form.Files["Image"];
+    // 1. Form verileri
+    string city = form["City"];
+    string country = form["Country"];
+    string description = form["Description"];
+    string ownerEmail = form["OwnerEmail"];
+    if (string.IsNullOrWhiteSpace(ownerEmail))
+        return Results.BadRequest(new { message = "Ev sahibi email gereklidir." });
 
-    if (image == null || image.Length == 0)
-        return Results.BadRequest(new { message = "Görsel dosyası gereklidir." });
-
-    // wwwroot/images klasörüne kaydet
-    var imagesPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images");
-    Directory.CreateDirectory(imagesPath); // yoksa oluştur
-
-    var fileName = Guid.NewGuid().ToString() + Path.GetExtension(image.FileName);
-    var filePath = Path.Combine(imagesPath, fileName);
-
-    using (var stream = new FileStream(filePath, FileMode.Create))
+    if (!int.TryParse(form["BedroomCount"], out int bedroomCount) ||
+        !int.TryParse(form["BathroomCount"], out int bathroomCount) ||
+        !decimal.TryParse(form["PricePerNight"], out decimal price) ||
+        !decimal.TryParse(form["Rating"], out decimal rating))
     {
-        await image.CopyToAsync(stream);
+        return Results.BadRequest(new { message = "Sayısal değerlerde geçersiz giriş." });
     }
 
-    var imagePath = $"/images/{fileName}";
-
-    // Veritabanına ekle
+    // 2. Kullanıcıyı bul
     var connectionString = configuration.GetConnectionString("DefaultConnection");
-    using var conn = new SqlConnection(connectionString);
-    var query = @"INSERT INTO Houses (City, Country, BedroomCount, BathroomCount, PricePerNight, Rating, ImagePath) 
-                  VALUES (@City, @Country, @BedroomCount, @BathroomCount, @PricePerNight, @Rating, @ImagePath)";
-    var cmd = new SqlCommand(query, conn);
-   cmd.Parameters.AddWithValue("@City", city);
-cmd.Parameters.AddWithValue("@Country", country);
-cmd.Parameters.AddWithValue("@BedroomCount", bedroomCount);
-cmd.Parameters.AddWithValue("@BathroomCount", bathroomCount);
-cmd.Parameters.AddWithValue("@PricePerNight", price);
-cmd.Parameters.AddWithValue("@Rating", rating);
-    cmd.Parameters.AddWithValue("@ImagePath", imagePath);
+    int ownerId;
 
-    try
+    using (var conn = new SqlConnection(connectionString))
     {
         await conn.OpenAsync();
-        await cmd.ExecuteNonQueryAsync();
-        return Results.Ok(new { message = "Ev başarıyla eklendi." });
+        var cmd = new SqlCommand("SELECT Id FROM Users WHERE Email = @Email", conn);
+        cmd.Parameters.AddWithValue("@Email", ownerEmail);
+
+        var result = await cmd.ExecuteScalarAsync();
+        if (result == null)
+            return Results.BadRequest(new { message = "Kullanıcı bulunamadı." });
+
+        ownerId = Convert.ToInt32(result);
     }
-    catch (SqlException ex)
+
+    // 3. Dosyaları al
+    var coverImage = form.Files["CoverImage"];
+    var roomImages = form.Files.Where(f => f.Name == "InteriorImages").ToList();
+
+    if (coverImage == null || coverImage.Length == 0)
+        return Results.BadRequest(new { message = "Kapak görseli gereklidir." });
+
+    if (roomImages.Count != 5)
+        return Results.BadRequest(new { message = "5 adet iç görsel yükleyin." });
+
+    var wwwRootPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+    var imagesPath = Path.Combine(wwwRootPath, "images");
+    Directory.CreateDirectory(imagesPath);
+
+    // 4. Kapak görseli kaydet
+    var coverFileName = Guid.NewGuid() + Path.GetExtension(coverImage.FileName);
+    var coverFilePath = Path.Combine(imagesPath, coverFileName);
+    await using (var stream = new FileStream(coverFilePath, FileMode.Create))
     {
-        return Results.BadRequest(new { message = "Veritabanı hatası: " + ex.Message });
+        await coverImage.CopyToAsync(stream);
     }
+    var coverImageUrl = $"/images/{coverFileName}";
+
+    // 5. İç görselleri kaydet
+    List<string> interiorImageUrls = new();
+    foreach (var img in roomImages)
+    {
+        var fileName = Guid.NewGuid() + Path.GetExtension(img.FileName);
+        var filePath = Path.Combine(imagesPath, fileName);
+        await using var stream = new FileStream(filePath, FileMode.Create);
+        await img.CopyToAsync(stream);
+        interiorImageUrls.Add($"/images/{fileName}");
+    }
+
+    // 6. Veritabanına ekle
+    int newHouseId;
+    using (var conn = new SqlConnection(connectionString))
+    {
+        await conn.OpenAsync();
+
+        var query = @"
+            INSERT INTO Houses
+            (City, Country, BedroomCount, BathroomCount, PricePerNight, Rating, Description, ImagePath, RoomImagePaths, OwnerId)
+            VALUES
+            (@City, @Country, @BedroomCount, @BathroomCount, @PricePerNight, @Rating, @Description, @ImagePath, @RoomImagePaths, @OwnerId);
+            SELECT CAST(SCOPE_IDENTITY() AS INT);";
+
+        using var cmd = new SqlCommand(query, conn);
+        cmd.Parameters.AddWithValue("@City", city);
+        cmd.Parameters.AddWithValue("@Country", country);
+        cmd.Parameters.AddWithValue("@BedroomCount", bedroomCount);
+        cmd.Parameters.AddWithValue("@BathroomCount", bathroomCount);
+        cmd.Parameters.AddWithValue("@PricePerNight", price);
+        cmd.Parameters.AddWithValue("@Rating", rating);
+        cmd.Parameters.AddWithValue("@Description", description ?? "");
+        cmd.Parameters.AddWithValue("@ImagePath", coverImageUrl);
+        cmd.Parameters.AddWithValue("@RoomImagePaths", string.Join(",", interiorImageUrls));
+        cmd.Parameters.AddWithValue("@OwnerId", ownerId);
+
+        var idResult = await cmd.ExecuteScalarAsync();
+        if (idResult == null)
+            return Results.BadRequest(new { message = "Ev eklendi ama ID alınamadı." });
+
+        newHouseId = Convert.ToInt32(idResult);
+    }
+
+    // 7. Başarıyla dön
+    return Results.Ok(new
+    {
+        message = "Ev başarıyla eklendi.",
+        house = new
+        {
+            Id = newHouseId,
+            City = city,
+            Country = country,
+            BedroomCount = bedroomCount,
+            BathroomCount = bathroomCount,
+            PricePerNight = price,
+            Rating = rating,
+            Description = description,
+            CoverImageUrl = coverImageUrl,
+            InteriorImageUrls = interiorImageUrls
+        }
+    });
 });
 
 
@@ -134,21 +307,25 @@ app.MapPost("/api/login", async (LoginRequest request, IConfiguration configurat
 
             if (isPasswordValid)
             {
-                return Results.Ok(new { message = "Giriş başarılı!" });
+                return Results.Ok(new { success = true, message = "Giriş başarılı!" }); // <--- DİKKAT
             }
             else
             {
-                return Results.Json(new { message = "Geçersiz e-posta ya da şifre." }, statusCode: 401);
+                return Results.Json(new { success = false, message = "Geçersiz e-posta ya da şifre." }, statusCode: 401);
             }
         }
         else
         {
-            return Results.Json(new { message = "Kullanıcı bulunamadı." }, statusCode: 404);
+            return Results.Json(new { success = false, message = "Kullanıcı bulunamadı." }, statusCode: 404);
         }
     }
     catch (SqlException ex)
     {
-        return Results.BadRequest(new { message = "Hata: " + ex.Message });
+        return Results.Json(new { success = false, message = "Hata: " + ex.Message }, statusCode: 500);
+    }
+    catch (Exception ex)
+    {
+        return Results.Json(new { success = false, message = "Beklenmeyen hata: " + ex.Message }, statusCode: 500); // <--- DİKKAT
     }
 });
 
@@ -176,7 +353,10 @@ public class House
     public int BathroomCount { get; set; }
     public decimal PricePerNight { get; set; }
     public decimal Rating { get; set; }
-    public IFormFile Image { get; set; } // Görsel dosyası
+    public IFormFile Image { get; set; }
+    public List<IFormFile> RoomImages { get; set; } // Oda görselleri
+  
+  public string Description { get; set; }
 }
 
 
