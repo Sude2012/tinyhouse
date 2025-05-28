@@ -58,17 +58,16 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-[#CDBEAF] border-b border-gray-200 px-4 py-5 flex flex-wrap items-center justify-between">
+    <nav className="bg-[white] border-b border-gray-200 px-4 py-5 flex flex-wrap items-center justify-between">
       {/* Sol taraf */}
       <div className="flex flex-wrap items-center gap-4 flex-1 min-w-0">
-        <div className="text-2xl font-bold whitespace-nowrap">MyTinyHouse</div>
+        <div className="flex flex-wrap items-center gap-4 flex-1 min-w-0">
+          <img src="/tinyhouse.svg" alt="Logo" className="w-90 h-15" />
+        </div>
 
         {/* Home */}
         <div>
-          <Link
-            href="/"
-            className="flex items-center gap-1 text-[#260B01] ml-5"
-          >
+          <Link href="/" className="flex items-center gap-1 text-[black] ml-5">
             <span>Home</span>
             <CgHomeAlt className="text-[#260B01] text-lg" />
           </Link>
@@ -78,7 +77,7 @@ const Navbar = () => {
         <div className="relative" ref={featuresRef}>
           <button
             onClick={() => setIsFeaturesOpen(!isFeaturesOpen)}
-            className="text-[#260B01] flex items-center gap-1 ml-5"
+            className="text-[black] flex items-center gap-1 ml-5"
           >
             <span>Favoriler</span>
             <CgHeart className="text-[#260B01] text-lg" />
@@ -109,7 +108,7 @@ const Navbar = () => {
           />
           <button
             onClick={checkCity}
-            className="absolute inset-y-0 right-3 flex items-center text-[#261C14]"
+            className="absolute inset-y-0 right-3 flex items-center text-[#C99297]"
           >
             <CgArrowRightO className="text-xl" />
           </button>
@@ -121,7 +120,7 @@ const Navbar = () => {
       <div className="relative mt-3 sm:mt-0" ref={loginRef}>
         <button
           onClick={() => setIsLoginOpen(!isLoginOpen)}
-          className="text-[#260B01] flex items-center"
+          className="text-[#C99297] flex items-center"
         >
           <span className="text-4xl mr-4 ml-25">
             <CgProfile />

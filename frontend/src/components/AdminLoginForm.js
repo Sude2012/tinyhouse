@@ -35,7 +35,7 @@ export default function AdminLoginForm() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
-          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded shadow-sm focus:outline-none focus:ring focus:ring-[#CDBEAF]"
+          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded shadow-sm focus:outline-none focus:ring focus:ring-[#C99297]"
         />
       </div>
 
@@ -46,13 +46,13 @@ export default function AdminLoginForm() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
-          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded shadow-sm focus:outline-none focus:ring focus:ring-[#CDBEAF]"
+          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded shadow-sm focus:outline-none focus:ring focus:ring-[#C99297]"
         />
       </div>
 
       <button
         type="submit"
-        className="w-full bg-[#260B01] text-white py-3 rounded hover:bg-[#CDBEAF] transition"
+        className="w-full bg-[#C99297] text-white py-3 rounded hover:bg-[#906668] transition"
       >
         Giriş Yap
       </button>

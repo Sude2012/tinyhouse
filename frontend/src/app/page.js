@@ -177,14 +177,14 @@ const HomePage = () => {
   return (
     <div
       className="flex flex-col items-center px-4 py-8 min-h-screen"
-      style={{ backgroundColor: "#FFF6F6" }}
+      style={{ backgroundColor: "white" }}
     >
       <h1 className="text-4xl font-bold mb-6 text-[black]">TİNY HOUSE</h1>
 
       {/* Arama Alanı */}
       <div
         className="flex flex-wrap gap-4 p-4 rounded-md w-full max-w-4xl justify-center"
-        style={{ backgroundColor: "#FFDADB" }}
+        style={{ backgroundColor: "#FFD8DB" }}
       >
         {/* Yer */}
         <div className="flex flex-col items-start w-40">
@@ -195,7 +195,7 @@ const HomePage = () => {
             type="text"
             id="location"
             placeholder="Yer"
-            className="border px-3 py-2 rounded w-full text-[#260B01]"
+            className="border px-3 py-2 rounded w-full text-[black]"
             style={{ backgroundColor: "#FFF6F6" }}
           />
         </div>
@@ -208,20 +208,20 @@ const HomePage = () => {
           <input
             type="date"
             id="check-in"
-            className="border px-3 py-2 rounded w-full text-[#260B01]"
+            className="border px-3 py-2 rounded w-full text-[black]"
             style={{ backgroundColor: "#FFF6F6" }}
           />
         </div>
 
         {/* Çıkış Tarihi */}
         <div className="flex flex-col items-start w-40">
-          <label htmlFor="check-out" className="text-[#260B01]">
+          <label htmlFor="check-out" className="text-[black]">
             Çıkış Tarihi
           </label>
           <input
             type="date"
             id="check-out"
-            className="border px-3 py-2 rounded w-full text-[#260B01]"
+            className="border px-3 py-2 rounded w-full text-[black]"
             style={{ backgroundColor: "#FFF6F6" }}
           />
         </div>
@@ -231,9 +231,9 @@ const HomePage = () => {
           className="flex flex-col items-start w-40 relative"
           ref={dropdownRef}
         >
-          <label className="text-[#260B01]">Kişi Sayısı</label>
+          <label className="text-[black]">Kişi Sayısı</label>
           <div
-            className="border px-3 py-2 rounded w-full cursor-pointer flex justify-between items-center text-[#260B01]"
+            className="border px-3 py-2 rounded w-full cursor-pointer flex justify-between items-center text-[black]"
             style={{ backgroundColor: "#FFF6F6" }}
             onClick={() => setShowGuestDropdown(!showGuestDropdown)}
           >
@@ -284,7 +284,7 @@ const HomePage = () => {
         </div>
 
         {/* Ara Butonu */}
-        <button className="bg-[#260B01] text-white px-3 py-1 rounded hover:bg-[#3d1703] flex items-center gap-2">
+        <button className="bg-[#C99297] text-white px-3 py-1 rounded hover:bg-[#906668] flex items-center gap-2">
           <FiSearch
             className="text-[#260B01] bg-white rounded-full p-1"
             size={20}

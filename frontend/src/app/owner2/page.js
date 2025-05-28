@@ -227,7 +227,8 @@ export default function NewHouseForm() {
           />
           <button
             onClick={handleSubmit}
-            className="w-full bg-blue-700 text-white py-2 rounded-md hover:bg-blue-900 transition"
+            className="w-full text-white py-2 rounded-md transition"
+            style={{ backgroundColor: "#8D5858" }}
           >
             {editingId ? "Evi Güncelle" : "Ev Ekle"}
           </button>
@@ -276,13 +277,15 @@ export default function NewHouseForm() {
                   <div className="flex gap-2 mt-3">
                     <button
                       onClick={() => handleEdit(ev)}
-                      className="flex-1 bg-yellow-400 text-xs py-1 rounded-md"
+                      className="flex-1 text-white text-xs py-1 rounded-md"
+                      style={{ backgroundColor: "#D99197" }}
                     >
                       Düzenle
                     </button>
                     <button
                       onClick={() => handleDelete(ev.id)}
-                      className="flex-1 bg-red-500 text-white text-xs py-1 rounded-md"
+                      className="flex-1 text-white text-xs py-1 rounded-md"
+                      style={{ backgroundColor: "#AF6468" }}
                     >
                       Sil
                     </button>

@@ -7,19 +7,19 @@ const Footer = () => {
   return (
     <footer
       className="py-8 px-4 flex flex-wrap justify-around text-sm"
-      style={{ backgroundColor: "#B39F8B", color: "#260B01" }}
+      style={{ backgroundColor: "#C99297   ", color: "#260B01" }}
     >
       {/* Destek */}
       <div>
         <h3 className="font-bold underline mb-2">Destek</h3>
         <ul className="space-y-1">
           <li>
-            <Link href="#" style={{ color: "#260B01" }}>
+            <Link href="#" style={{ color: "black" }}>
               Yardım Merkezi
             </Link>
           </li>
           <li>
-            <Link href="#" style={{ color: "#260B01" }}>
+            <Link href="#" style={{ color: "black" }}>
               SSS
             </Link>
           </li>
@@ -39,19 +39,19 @@ const Footer = () => {
         <div className="flex gap-4 text-xl">
           <Link href="https://instagram.com" target="_blank">
             <FaInstagram
-              style={{ color: "#260B01" }}
+              style={{ color: "black" }}
               className="hover:opacity-75"
             />
           </Link>
           <Link href="https://twitter.com" target="_blank">
             <FaTwitter
-              style={{ color: "#260B01" }}
+              style={{ color: "black" }}
               className="hover:opacity-75"
             />
           </Link>
           <Link href="https://facebook.com" target="_blank">
             <FaFacebook
-              style={{ color: "#260B01" }}
+              style={{ color: "black" }}
               className="hover:opacity-75"
             />
           </Link>
@@ -64,7 +64,7 @@ const Footer = () => {
         <Link
           href="mailto:beyza@example.com"
           className="underline hover:opacity-75"
-          style={{ color: "#260B01" }}
+          style={{ color: "black" }}
         >
           Bize e-posta gönderin
         </Link>

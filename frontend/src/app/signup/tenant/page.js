@@ -78,7 +78,7 @@ export default function TenantSignupPage() {
           </div>
           <button
             type="submit"
-            className="w-full bg-[#260B01] text-white py-2 rounded hover:bg-[#3e2010]"
+            className="w-full bg-[#C99297] text-white py-2 rounded hover:bg-[#906668]"
           >
             Kaydol
           </button>

@@ -72,7 +72,7 @@ export default function SignupPage() {
   return (
     <div className="relative flex items-center justify-center min-h-screen bg-gray-100 px-4">
       <img
-        src="/Unknown-69.jpg"
+        src="/ -4.jpg"
         alt="Background"
         className="absolute inset-0 w-full h-full object-cover opacity-82 z-0"
       />
@@ -87,14 +87,14 @@ export default function SignupPage() {
 
             <button
               onClick={() => setUserType("tenant")}
-              className="w-64 bg-[#260B01] text-white py-3 rounded hover:bg-[#CDBEAF] transition mb-4"
+              className="w-64 bg-[#C99297] text-white py-3 rounded hover:bg-[#906668] transition mb-4"
             >
               Kiracı Olarak Kaydol
             </button>
 
             <button
               onClick={() => setUserType("owner")}
-              className="w-64 bg-[#260B01] text-white py-3 rounded hover:bg-[#CDBEAF] transition"
+              className="w-64 bg-[#C99297] text-white py-3 rounded hover:bg-[#906668] transition"
             >
               İlan Sahibi Olarak Kaydol
             </button>
@@ -145,7 +145,7 @@ export default function SignupPage() {
             </div>
             <button
               type="submit"
-              className="w-full bg-[#260B01] text-white py-3 rounded hover:bg-[#3e2010] transition"
+              className="w-full bg-[#C99297] text-white py-3 rounded hover:bg-[#906668] transition"
             >
               Kaydol
             </button>
@@ -196,7 +196,7 @@ export default function SignupPage() {
             </div>
             <button
               type="submit"
-              className="w-full bg-[#260B01] text-white py-3 rounded hover:bg-[#CDBEAF] transition"
+              className="w-full bg-[#C99297] text-white py-3 rounded hover:bg-[#906668] transition"
             >
               Kaydol
             </button>
