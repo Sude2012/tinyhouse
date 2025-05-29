@@ -109,13 +109,13 @@ app.MapPut("/api/houses/{id:int}", async (HttpRequest request, int id, IConfigur
 {
     var form = await request.ReadFormAsync();
 
-    string city = form["City"];
-    string country = form["Country"];
-    string description = form["Description"];
-    int bedroomCount = int.Parse(form["BedroomCount"]);
-    int bathroomCount = int.Parse(form["BathroomCount"]);
-    decimal price = decimal.Parse(form["PricePerNight"]);
-    decimal rating = decimal.Parse(form["Rating"]);
+    string? city = form["City"];
+    string? country = form["Country"];
+    string? description = form["Description"];
+    int? bedroomCount = int.Parse(form["BedroomCount"]);
+    int? bathroomCount = int.Parse(form["BathroomCount"]);
+    decimal? price = decimal.Parse(form["PricePerNight"]);
+    decimal? rating = decimal.Parse(form["Rating"]);
 
     var connectionString = configuration.GetConnectionString("DefaultConnection");
     using var conn = new SqlConnection(connectionString);
@@ -367,32 +367,378 @@ app.MapPost("/api/login", async (LoginRequest request, IConfiguration configurat
         return Results.Json(new { success = false, message = "Beklenmeyen hata: " + ex.Message }, statusCode: 500);
     }
 });
+// rezervasyonlarım sayfası için
+app.MapGet("/api/reservations/by-user", async (HttpRequest request, IConfiguration configuration) =>
+{
+    var email = request.Query["email"].ToString();
+    if (string.IsNullOrWhiteSpace(email))
+        return Results.BadRequest("Email gereklidir.");
+
+    var connectionString = configuration.GetConnectionString("DefaultConnection");
+    var result = new List<object>();
+
+    using var conn = new SqlConnection(connectionString);
+    await conn.OpenAsync();
+
+    // House tablosu ile join yaparak konum gösteriyoruz
+    var query = @"
+        SELECT r.Id, r.HouseId, r.StartDate, r.EndDate, r.TotalPrice, 
+               (h.City + ', ' + h.Country) AS HouseLocation
+        FROM Reservations r
+        INNER JOIN Houses h ON r.HouseId = h.Id
+        WHERE r.UserEmail = @UserEmail
+        ORDER BY r.StartDate DESC";
+
+    using var cmd = new SqlCommand(query, conn);
+    cmd.Parameters.AddWithValue("@UserEmail", email);
+
+    using var reader = await cmd.ExecuteReaderAsync();
+    while (await reader.ReadAsync())
+    {
+        result.Add(new
+        {
+            id = reader.GetInt32(0),
+            houseId = reader.GetInt32(1),
+            startDate = reader.GetDateTime(2),
+            endDate = reader.GetDateTime(3),
+            totalPrice = reader.GetDecimal(4),
+            houseLocation = reader.IsDBNull(5) ? null : reader.GetString(5)
+        });
+    }
+
+    return Results.Ok(result);
+});
+
+//rezervasyon iptali
+app.MapDelete("/api/reservations/{id:int}", async (int id, IConfiguration configuration) =>
+{
+    var connectionString = configuration.GetConnectionString("DefaultConnection");
+    using var conn = new SqlConnection(connectionString);
+    await conn.OpenAsync();
+
+    var cmd = new SqlCommand("DELETE FROM Reservations WHERE Id = @Id", conn);
+    cmd.Parameters.AddWithValue("@Id", id);
+    var rows = await cmd.ExecuteNonQueryAsync();
+
+    if (rows > 0)
+        return Results.Ok(new { message = "Rezervasyon silindi." });
+    else
+        return Results.NotFound(new { message = "Rezervasyon bulunamadı." });
+});
+
+// rezervasyonlarım sayfası için
+app.MapGet("/api/reservations/by-user", async (HttpRequest request, IConfiguration configuration) =>
+{
+    var email = request.Query["email"].ToString();
+    if (string.IsNullOrWhiteSpace(email))
+        return Results.BadRequest("Email gereklidir.");
+
+    var connectionString = configuration.GetConnectionString("DefaultConnection");
+    var result = new List<object>();
+
+    using var conn = new SqlConnection(connectionString);
+    await conn.OpenAsync();
+
+    // House tablosu ile join yaparak konum gösteriyoruz
+    var query = @"
+        SELECT r.Id, r.HouseId, r.StartDate, r.EndDate, r.TotalPrice, 
+               (h.City + ', ' + h.Country) AS HouseLocation
+        FROM Reservations r
+        INNER JOIN Houses h ON r.HouseId = h.Id
+        WHERE r.UserEmail = @UserEmail
+        ORDER BY r.StartDate DESC";
+
+    using var cmd = new SqlCommand(query, conn);
+    cmd.Parameters.AddWithValue("@UserEmail", email);
+
+    using var reader = await cmd.ExecuteReaderAsync();
+    while (await reader.ReadAsync())
+    {
+        result.Add(new
+        {
+            id = reader.GetInt32(0),
+            houseId = reader.GetInt32(1),
+            startDate = reader.GetDateTime(2),
+            endDate = reader.GetDateTime(3),
+            totalPrice = reader.GetDecimal(4),
+            houseLocation = reader.IsDBNull(5) ? null : reader.GetString(5)
+        });
+    }
+
+    return Results.Ok(result);
+});
+
+//rezervasyon iptali
+app.MapDelete("/api/reservations/{id:int}", async (int id, IConfiguration configuration) =>
+{
+    var connectionString = configuration.GetConnectionString("DefaultConnection");
+    using var conn = new SqlConnection(connectionString);
+    await conn.OpenAsync();
+
+    var cmd = new SqlCommand("DELETE FROM Reservations WHERE Id = @Id", conn);
+    cmd.Parameters.AddWithValue("@Id", id);
+    var rows = await cmd.ExecuteNonQueryAsync();
+
+    if (rows > 0)
+        return Results.Ok(new { message = "Rezervasyon silindi." });
+    else
+        return Results.NotFound(new { message = "Rezervasyon bulunamadı." });
+});
+
+
+
+app.MapPost("/api/reservations", async (ReservationRequest request, IConfiguration configuration) =>
+{
+    if (request.HouseId == null || request.StartDate == null || request.EndDate == null || request.TotalPrice == null || string.IsNullOrWhiteSpace(request.UserEmail))
+    {
+        return Results.BadRequest(new { message = "Eksik rezervasyon bilgisi." });
+    }
+
+    var connectionString = configuration.GetConnectionString("DefaultConnection");
+    using var conn = new SqlConnection(connectionString);
+    await conn.OpenAsync();
+
+    var query = @"
+        INSERT INTO Reservations (HouseId, UserEmail, StartDate, EndDate, TotalPrice)
+        VALUES (@HouseId, @UserEmail, @StartDate, @EndDate, @TotalPrice)";
+
+    using var cmd = new SqlCommand(query, conn);
+    cmd.Parameters.AddWithValue("@HouseId", request.HouseId);
+    cmd.Parameters.AddWithValue("@UserEmail", request.UserEmail);
+    cmd.Parameters.AddWithValue("@StartDate", request.StartDate);
+    cmd.Parameters.AddWithValue("@EndDate", request.EndDate);
+    cmd.Parameters.AddWithValue("@TotalPrice", request.TotalPrice);
+
+    var rows = await cmd.ExecuteNonQueryAsync();
+    return rows > 0
+        ? Results.Ok(new { message = "Rezervasyon başarıyla kaydedildi." })
+        : Results.BadRequest(new { message = "Rezervasyon kaydedilemedi." });
+});
+
+
+// Admin tüm evleri kullanıcı adıyla getir
+app.MapGet("/api/admin/houses", async (IConfiguration configuration) =>
+{
+    var connectionString = configuration.GetConnectionString("DefaultConnection");
+    using var conn = new SqlConnection(connectionString);
+    await conn.OpenAsync();
+
+    var query = @"
+        SELECT h.Id, h.City, h.Country, h.BedroomCount, h.BathroomCount, h.PricePerNight,
+               u.Username AS OwnerName
+        FROM Houses h
+        JOIN Users u ON h.OwnerId = u.Id";
+
+    using var cmd = new SqlCommand(query, conn);
+    using var reader = await cmd.ExecuteReaderAsync();
+
+    var houses = new List<object>();
+    while (await reader.ReadAsync())
+    {
+        houses.Add(new
+        {
+            id = reader.GetInt32(0),
+            city = reader.GetString(1),
+            country = reader.GetString(2),
+            bedroomCount = reader.GetInt32(3),
+            bathroomCount = reader.GetInt32(4),
+            price = reader.GetDecimal(5),
+            ownerName = reader.GetString(6)
+        });
+    }
+
+    return Results.Json(houses);
+});
+
+// Admin - ilan silme
+app.MapDelete("/api/admin/houses/{id:int}", async (int id, IConfiguration configuration) =>
+{
+    var connectionString = configuration.GetConnectionString("DefaultConnection");
+    using var conn = new SqlConnection(connectionString);
+    await conn.OpenAsync();
+
+    var cmd = new SqlCommand("DELETE FROM Houses WHERE Id = @Id", conn);
+    cmd.Parameters.AddWithValue("@Id", id);
+
+    int affected = await cmd.ExecuteNonQueryAsync();
+    return affected > 0
+        ? Results.Ok(new { message = "Ev silindi." })
+        : Results.NotFound(new { message = "Ev bulunamadı." });
+});
+
+app.MapGet("/api/admin/payments", async (IConfiguration configuration) =>
+{
+    var connectionString = configuration.GetConnectionString("DefaultConnection");
+    using var conn = new SqlConnection(connectionString);
+    await conn.OpenAsync();
+
+    var query = @"
+        SELECT TOP 20
+            r.TotalPrice,
+            r.UserEmail,
+            r.StartDate,
+            r.EndDate,
+            (h.City + ', ' + h.Country) AS HouseLocation
+        FROM Reservations r
+        INNER JOIN Houses h ON r.HouseId = h.Id
+        ORDER BY r.Id DESC";
+
+    using var cmd = new SqlCommand(query, conn);
+    using var reader = await cmd.ExecuteReaderAsync();
+
+    var result = new List<object>();
+    while (await reader.ReadAsync())
+    {
+        result.Add(new
+        {
+            amount = reader.GetDecimal(0),
+            email = reader.GetString(1),
+            startDate = reader.GetDateTime(2),
+            endDate = reader.GetDateTime(3),
+            location = reader.IsDBNull(4) ? null : reader.GetString(4)
+        });
+    }
+
+    return Results.Ok(result);
+});
+
+
+
+app.MapGet("/api/admin/reservations", async (IConfiguration configuration) =>
+{
+    var connectionString = configuration.GetConnectionString("DefaultConnection");
+    using var conn = new SqlConnection(connectionString);
+    await conn.OpenAsync();
+
+    var query = @"
+        SELECT r.UserEmail, r.StartDate, r.EndDate, r.TotalPrice,
+               (h.City + ', ' + h.Country) AS HouseLocation
+        FROM Reservations r
+        INNER JOIN Houses h ON r.HouseId = h.Id
+        ORDER BY r.StartDate DESC";
+
+    using var cmd = new SqlCommand(query, conn);
+    using var reader = await cmd.ExecuteReaderAsync();
+
+    var result = new List<object>();
+    while (await reader.ReadAsync())
+    {
+        result.Add(new
+        {
+            email = reader.GetString(0),
+            startDate = reader.GetDateTime(1),
+            endDate = reader.GetDateTime(2),
+            totalPrice = reader.GetDecimal(3),
+            houseLocation = reader.IsDBNull(4) ? null : reader.GetString(4)
+        });
+    }
+
+    return Results.Ok(result);
+});
+
+
+app.MapGet("/api/admin/users", async (IConfiguration configuration) =>
+{
+    var connectionString = configuration.GetConnectionString("DefaultConnection");
+    var users = new List<object>();
+
+    using var conn = new SqlConnection(connectionString);
+    await conn.OpenAsync();
+
+    var cmd = new SqlCommand("SELECT Username, Email FROM Users", conn);
+    using var reader = await cmd.ExecuteReaderAsync();
+    while (await reader.ReadAsync())
+    {
+        var username = reader.IsDBNull(0) ? "" : reader.GetString(0);
+        var email = reader.IsDBNull(1) ? "" : reader.GetString(1);
+
+        users.Add(new { username, email });
+    }
+
+    return Results.Json(users); // BURASI!
+});
+
+
+
+app.MapGet("/api/admin/dashboard", async (IConfiguration configuration) =>
+{
+    var connectionString = configuration.GetConnectionString("DefaultConnection");
+
+    int userCount = 0, reservationCount = 0, listingCount = 0;
+    decimal totalPayment = 0;
+    var chartData = new List<object>();
+
+    using var conn = new SqlConnection(connectionString);
+    await conn.OpenAsync();
+
+    var cmd = new SqlCommand(@"
+        SELECT COUNT(*) FROM Users;
+        SELECT COUNT(*) FROM Reservations;
+        SELECT COUNT(*) FROM Houses;
+        SELECT ISNULL(SUM(TotalPrice), 0) FROM Reservations;
+    ", conn);
+
+    using var reader = await cmd.ExecuteReaderAsync();
+
+    if (await reader.ReadAsync()) userCount = reader.GetInt32(0);
+    await reader.NextResultAsync();
+    if (await reader.ReadAsync()) reservationCount = reader.GetInt32(0);
+    await reader.NextResultAsync();
+    if (await reader.ReadAsync()) listingCount = reader.GetInt32(0);
+    await reader.NextResultAsync();
+    if (await reader.ReadAsync()) totalPayment = reader.GetDecimal(0);
+    await reader.CloseAsync();
+
+    for (int i = 1; i <= 5; i++)
+    {
+        chartData.Add(new { name = new DateTime(2025, i, 1).ToString("MMM"), reservations = new Random().Next(10, 50) });
+    }
+
+    var stats = new[]
+    {
+        new { name = "Users", count = userCount },
+        new { name = "Reservations", count = reservationCount },
+        new { name = "Payments", count = (int)totalPayment },
+        new { name = "Listings", count = listingCount }
+    };
+
+    return Results.Json(new { stats, chartData });
+});
 
 app.Run();
 
 // MODELLER
 public class User
 {
-    public string Username { get; set; }
-    public string Email { get; set; }
-    public string Password { get; set; } // Ham şifre
+    public string? Username { get; set; }
+    public string? Email { get; set; }
+    public string? Password { get; set; } // Ham şifre
 }
 
+public class ReservationRequest
+{
+    
+    public int? HouseId { get; set; }
+    public string? UserEmail { get; set; }
+    public DateTime? StartDate { get; set; }
+    public DateTime? EndDate { get; set; }
+    public decimal? TotalPrice { get; set; }
+}
 public class LoginRequest
 {
-    public string Email { get; set; }
-    public string Password { get; set; } // Ham şifre
+    public string? Email { get; set; }
+    public string? Password { get; set; } // Ham şifre
 }
 
 public class House
 {
-    public string City { get; set; }
-    public string Country { get; set; }
-    public int BedroomCount { get; set; }
-    public int BathroomCount { get; set; }
-    public decimal PricePerNight { get; set; }
-    public decimal Rating { get; set; }
-    public IFormFile Image { get; set; }
-    public List<IFormFile> RoomImages { get; set; }
-    public string Description { get; set; }
+    public string? City { get; set; }
+    public string? Country { get; set; }
+    public int? BedroomCount { get; set; }
+    public int? BathroomCount { get; set; }
+    public decimal? PricePerNight { get; set; }
+    public decimal? Rating { get; set; }
+    public IFormFile? Image { get; set; }
+    public List<IFormFile>? RoomImages { get; set; }
+    public string? Description { get; set; }
 }

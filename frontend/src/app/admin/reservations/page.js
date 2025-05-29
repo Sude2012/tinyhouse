@@ -1,9 +1,26 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { CalendarCheck } from "lucide-react";
 
 export default function ReservationsPage() {
+  const [reservations, setReservations] = useState([]);
+
+  useEffect(() => {
+    const fetchReservations = async () => {
+      try {
+        const res = await fetch("http://localhost:5254/api/admin/reservations");
+        const data = await res.json();
+        setReservations(data);
+      } catch (error) {
+        console.error("Rezervasyonlar getirilemedi:", error);
+      }
+    };
+
+    fetchReservations();
+  }, []);
+
   return (
     <motion.div
       className="min-h-screen bg-gray-50 p-8"
@@ -23,25 +40,31 @@ export default function ReservationsPage() {
         transition={{ delay: 0.2 }}
       >
         <p className="text-gray-700 text-lg">
-          Tüm rezervasyonları buradan takip edebilirsin.
+          Tüm rezervasyonlar aşağıda listelenmektedir.
         </p>
 
         <div className="mt-4 space-y-4">
-          {[...Array(5)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="p-4 bg-gray-100 rounded-xl shadow-sm"
-              whileHover={{ scale: 1.02 }}
-              transition={{ duration: 0.2 }}
-            >
-              <p className="text-gray-800 font-semibold">
-                Rezervasyon #{i + 101}
-              </p>
-              <p className="text-gray-500 text-sm">
-                01/0{i + 1}/2025 • 2 kişi • 3 gece
-              </p>
-            </motion.div>
-          ))}
+          {reservations.length === 0 ? (
+            <p className="text-gray-500">Hiç rezervasyon bulunamadı.</p>
+          ) : (
+            reservations.map((res, i) => (
+              <motion.div
+                key={i}
+                className="p-4 bg-gray-100 rounded-xl shadow-sm"
+                whileHover={{ scale: 1.02 }}
+                transition={{ duration: 0.2 }}
+              >
+                <p className="text-gray-800 font-semibold">
+                  {res.email} • {res.houseLocation}
+                </p>
+                <p className="text-gray-500 text-sm">
+                  {new Date(res.startDate).toLocaleDateString()} -{" "}
+                  {new Date(res.endDate).toLocaleDateString()} • ₺
+                  {res.totalPrice}
+                </p>
+              </motion.div>
+            ))
+          )}
         </div>
       </motion.div>
     </motion.div>

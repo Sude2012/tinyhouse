@@ -114,6 +114,7 @@
 /Users/selversude/Desktop/tinyHouse/Api/bin/Debug/net9.0/BCrypt.Net-Next.dll
 /Users/selversude/Desktop/tinyHouse/tinyhouse/Api/bin/Debug/net9.0/appsettings.Development.json
 /Users/selversude/Desktop/tinyHouse/tinyhouse/Api/bin/Debug/net9.0/appsettings.json
+/Users/selversude/Desktop/tinyHouse/tinyhouse/Api/bin/Debug/net9.0/Api.staticwebassets.runtime.json
 /Users/selversude/Desktop/tinyHouse/tinyhouse/Api/bin/Debug/net9.0/Api.staticwebassets.endpoints.json
 /Users/selversude/Desktop/tinyHouse/tinyhouse/Api/bin/Debug/net9.0/Api
 /Users/selversude/Desktop/tinyHouse/tinyhouse/Api/bin/Debug/net9.0/Api.deps.json
@@ -197,4 +198,3 @@
 /Users/selversude/Desktop/tinyHouse/tinyhouse/Api/obj/Debug/net9.0/Api.pdb
 /Users/selversude/Desktop/tinyHouse/tinyhouse/Api/obj/Debug/net9.0/Api.genruntimeconfig.cache
 /Users/selversude/Desktop/tinyHouse/tinyhouse/Api/obj/Debug/net9.0/ref/Api.dll
-/Users/selversude/Desktop/tinyHouse/tinyhouse/Api/bin/Debug/net9.0/Api.staticwebassets.runtime.json

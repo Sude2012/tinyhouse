@@ -13,35 +13,45 @@ import {
 import { User, CalendarCheck, CreditCard, Home } from "lucide-react";
 import { motion } from "framer-motion";
 
-const mockStats = [
-  { name: "Users", count: 124 },
-  { name: "Reservations", count: 87 },
-  { name: "Payments", count: 72 },
-  { name: "Listings", count: 34 },
-];
-
-const chartData = [
-  { name: "Jan", reservations: 10 },
-  { name: "Feb", reservations: 15 },
-  { name: "Mar", reservations: 30 },
-  { name: "Apr", reservations: 25 },
-  { name: "May", reservations: 40 },
-];
-
 const icons = {
-  Users: <User className="text-blue-600" />,
+  Users: <User className="text-[#906668]" />,
   Reservations: <CalendarCheck className="text-green-600" />,
   Payments: <CreditCard className="text-purple-600" />,
-  Listings: <Home className="text-yellow-600" />,
+  Listings: <Home className="text-[#C99297]" />,
 };
 
 export default function AdminDashboard() {
-  const [stats, setStats] = useState(mockStats);
+  const [stats, setStats] = useState([]);
+  const [chartData, setChartData] = useState([]);
   const router = useRouter();
 
+  useEffect(() => {
+    const fetchDashboardData = async () => {
+      try {
+        const res = await fetch("http://localhost:5254/api/admin/dashboard");
+
+        if (!res.ok) {
+          const text = await res.text();
+          console.error("Dashboard JSON hatası:", text);
+          return;
+        }
+
+        const data = await res.json();
+        setStats(data.stats || []);
+        setChartData(data.chartData || []);
+      } catch (err) {
+        console.error("Dashboard verileri alınamadı:", err);
+      }
+    };
+
+    fetchDashboardData();
+  }, []);
+
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
-      <h1 className="text-3xl font-bold text-gray-800 mb-6">Admin Dashboard</h1>
+    <div className="min-h-screen bg-[#fef6f7] p-6">
+      <h1 className="text-3xl font-bold text-[#A0686D] mb-6">
+        Admin Dashboard
+      </h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
         {stats.map((item, index) => (
@@ -51,11 +61,11 @@ export default function AdminDashboard() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.2 }}
             onClick={() => router.push(`/admin/${item.name.toLowerCase()}`)}
-            className="bg-white p-4 rounded-2xl shadow hover:shadow-lg flex items-center justify-between cursor-pointer hover:bg-gray-50 transition"
+            className="bg-white p-4 rounded-2xl shadow hover:shadow-md flex items-center justify-between cursor-pointer border hover:bg-[#fdf2f2] transition"
           >
             <div>
               <p className="text-sm text-gray-500">{item.name}</p>
-              <p className="text-xl font-semibold">{item.count}</p>
+              <p className="text-2xl font-bold text-[#C99297]">{item.count}</p>
             </div>
             <div className="text-3xl">{icons[item.name]}</div>
           </motion.div>
@@ -63,13 +73,15 @@ export default function AdminDashboard() {
       </div>
 
       <div className="mt-10 bg-white p-6 rounded-2xl shadow">
-        <h2 className="text-xl font-bold mb-4">Rezervasyon Trendleri</h2>
+        <h2 className="text-xl font-bold text-[#A0686D] mb-4">
+          Rezervasyon Trendleri
+        </h2>
         <ResponsiveContainer width="100%" height={300}>
           <BarChart data={chartData}>
             <XAxis dataKey="name" />
             <YAxis />
             <Tooltip />
-            <Bar dataKey="reservations" fill="#3b82f6" radius={[4, 4, 0, 0]} />
+            <Bar dataKey="reservations" fill="#C99297" radius={[4, 4, 0, 0]} />
           </BarChart>
         </ResponsiveContainer>
       </div>

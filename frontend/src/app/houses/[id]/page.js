@@ -1,38 +1,321 @@
 // src/app/houses/[id]/page.js
 "use client";
+import { useParams, useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
+import { FaStar, FaBed, FaBath, FaUserCircle } from "react-icons/fa";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { differenceInDays, isWithinInterval } from "date-fns";
 
-import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+// Dummy yorumlar ve rezervasyon örneği
+const comments = [
+  { user: "Ayşe", text: "Çok huzurluydu, tekrar gelmek isterim!", rating: 5 },
+  {
+    user: "Mehmet",
+    text: "Ev çok temizdi ve ev sahibi çok ilgiliydi.",
+    rating: 4,
+  },
+];
+
+const bookedDates = [
+  { start: new Date("2025-05-25"), end: new Date("2025-05-28") },
+  { start: new Date("2025-06-02"), end: new Date("2025-06-05") },
+];
 
 export default function HouseDetailPage() {
   const { id } = useParams();
-  const [house, setHouse] = useState(null);
+  const router = useRouter();
 
+  const [house, setHouse] = useState(null);
+  const [currentPhoto, setCurrentPhoto] = useState(0);
+  const [dateRange, setDateRange] = useState([null, null]);
+  const [adults, setAdults] = useState(1);
+  const [children, setChildren] = useState(0);
+  const [startDate, endDate] = dateRange;
+
+  // Fotoğrafları ve özellikleri backend'den gelecek şekilde setle
   useEffect(() => {
     fetch(`http://localhost:5254/api/houses/${id}`)
       .then((res) => res.json())
-      .then((data) => setHouse(data))
-      .catch((err) => console.error("Ev detayları alınamadı", err));
+      .then((data) => {
+        setHouse({
+          id: data.id,
+          city: data.city,
+          country: data.country,
+          bedroomCount: data.bedroomCount,
+          bathroomCount: data.bathroomCount,
+          pricePerNight: data.pricePerNight,
+          rating: data.rating,
+          description: data.description || "Detay açıklama bulunamadı.",
+          features: data.features || ["Wi-Fi", "Klima", "Mutfak"],
+          photos: data.interiorImageUrls?.length
+            ? data.interiorImageUrls.map((img) => `http://localhost:5254${img}`)
+            : [`http://localhost:5254${data.coverImageUrl}`],
+          coverImageUrl: `http://localhost:5254${data.coverImageUrl}`,
+        });
+      })
+      .catch((err) => {
+        setHouse(null);
+      });
   }, [id]);
 
-  if (!house) return <div className="p-4">Yükleniyor...</div>;
+  // Fiyat ve tarih hesaplama
+  const nights =
+    startDate && endDate ? differenceInDays(endDate, startDate) : 0;
+  const totalPrice = nights * (house?.pricePerNight || 0);
+
+  // Fotoğraf galerisi
+  const nextPhoto = () =>
+    setCurrentPhoto((prev) => (prev + 1) % (house?.photos?.length || 1));
+  const prevPhoto = () =>
+    setCurrentPhoto(
+      (prev) =>
+        (prev - 1 + (house?.photos?.length || 1)) % (house?.photos?.length || 1)
+    );
+
+  const clearDates = () => setDateRange([null, null]);
+
+  const isOverlapping = () => {
+    if (!startDate || !endDate) return false;
+    return bookedDates.some(
+      ({ start, end }) =>
+        isWithinInterval(start, { start: startDate, end: endDate }) ||
+        isWithinInterval(end, { start: startDate, end: endDate }) ||
+        isWithinInterval(startDate, { start, end }) ||
+        isWithinInterval(endDate, { start, end })
+    );
+  };
+
+  // Takvimi engelle (örnek - backend'e bağlayabilirsin)
+  const disabledDates = [];
+  bookedDates.forEach(({ start, end }) => {
+    const date = new Date(start);
+    while (date <= end) {
+      disabledDates.push(new Date(date));
+      date.setDate(date.getDate() + 1);
+    }
+  });
+
+  const handleAddToCart = () => {
+    if (isOverlapping()) {
+      alert("Seçtiğiniz tarihler dolu. Lütfen farklı tarihler seçin.");
+      return;
+    }
+
+    if (!startDate || !endDate || !house?.id) {
+      alert("Lütfen tarihleri seçin ve ev bilgisi yüklensin.");
+      return;
+    }
+
+    const start = startDate.toISOString();
+    const end = endDate.toISOString();
+    const total = nights * (house.pricePerNight || 0);
+
+    router.push(
+      `/reservation-confirmation?houseId=${house.id}&start=${start}&end=${end}&total=${total}`
+    );
+  };
+
+  if (!house)
+    return (
+      <div className="flex justify-center items-center h-64 text-xl font-semibold text-[#260B01]">
+        Yükleniyor...
+      </div>
+    );
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
-      <h1 className="text-3xl font-bold mb-4">
-        {house.city}, {house.country}
-      </h1>
-      <img
-        src={`http://localhost:5254${house.coverImageUrl}`}
-        alt="Kapak"
-        className="w-full h-96 object-cover rounded-lg mb-4"
-      />
-      <p className="text-gray-700 mb-2">{house.description}</p>
-      <div className="flex gap-4 text-sm text-gray-600 mb-2">
-        <span>🛏️ {house.bedroomCount} Yatak</span>
-        <span>🛁 {house.bathroomCount} Banyo</span>
+    <div
+      className="max-w-6xl mx-auto px-4 py-6 text-[#260B01]"
+      style={{ backgroundColor: "#E6DCDC" }}
+    >
+      {/* Fotoğraf Galerisi */}
+      <div className="relative w-full h-[400px] mb-6 rounded overflow-hidden shadow-lg">
+        <img
+          src={house.photos[currentPhoto]}
+          alt={`Fotoğraf ${currentPhoto + 1}`}
+          className="w-full h-full object-cover"
+        />
+        {house.photos.length > 1 && (
+          <>
+            <button
+              onClick={prevPhoto}
+              className="absolute top-1/2 left-2 transform -translate-y-1/2 bg-white bg-opacity-70 rounded-full p-2 shadow hover:bg-opacity-90"
+            >
+              ‹
+            </button>
+            <button
+              onClick={nextPhoto}
+              className="absolute top-1/2 right-2 transform -translate-y-1/2 bg-white bg-opacity-70 rounded-full p-2 shadow hover:bg-opacity-90"
+            >
+              ›
+            </button>
+          </>
+        )}
+        <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex gap-2">
+          {house.photos.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setCurrentPhoto(i)}
+              className={`w-3 h-3 rounded-full ${
+                i === currentPhoto ? "bg-[#260B01]" : "bg-gray-400"
+              }`}
+            />
+          ))}
+        </div>
       </div>
-      <div className="text-lg font-semibold">₺{house.pricePerNight}/gece</div>
+
+      {/* Ev Bilgileri */}
+      <div className="bg-white p-4 rounded shadow mb-6">
+        <h2 className="text-2xl font-semibold mb-2">
+          {house.city}, {house.country}
+        </h2>
+        <div className="flex items-center gap-4 mb-2">
+          <div className="flex items-center gap-1">
+            <FaBed /> {house.bedroomCount} Yatak Odası
+          </div>
+          <div className="flex items-center gap-1">
+            <FaBath /> {house.bathroomCount} Banyo
+          </div>
+          <div className="flex items-center gap-1 text-yellow-500">
+            <FaStar /> {house.rating}
+          </div>
+          <div className="flex items-center gap-1">₺{house.pricePerNight}</div>
+        </div>
+        <p className="text-sm text-gray-700 mb-2">{house.description}</p>
+        <ul className="list-disc pl-5 text-sm text-gray-800">
+          {house.features.map((feature, idx) => (
+            <li key={idx}>{feature}</li>
+          ))}
+        </ul>
+      </div>
+
+      {/* Takvim ve Fiyat Hesaplama */}
+      <div className="bg-white p-4 rounded shadow mb-6 flex flex-col gap-4">
+        <label className="font-semibold">Giriş - Çıkış Tarihleri</label>
+        <div className="flex gap-6 rounded border overflow-hidden w-fit">
+          <div>
+            <label className="block text-sm mb-1">Giriş Tarihi</label>
+            <DatePicker
+              selected={startDate}
+              onChange={(date) => {
+                setDateRange([date, endDate]);
+                if (endDate && date > endDate) setDateRange([date, null]);
+              }}
+              selectsStart
+              startDate={startDate}
+              endDate={endDate}
+              minDate={new Date()}
+              dateFormat="dd/MM/yyyy"
+              inline
+              excludeDates={disabledDates}
+            />
+          </div>
+          <div>
+            <label className="block text-sm mb-1">Çıkış Tarihi</label>
+            <DatePicker
+              selected={endDate}
+              onChange={(date) => setDateRange([startDate, date])}
+              selectsEnd
+              startDate={startDate}
+              endDate={endDate}
+              minDate={startDate || new Date()}
+              dateFormat="dd/MM/yyyy"
+              inline
+              excludeDates={disabledDates}
+            />
+          </div>
+        </div>
+        {startDate && endDate && (
+          <div className="mt-2 text-sm bg-[#f5f5f5] text-[#260B01] px-4 py-2 rounded shadow-sm w-fit">
+            <span className="font-medium">Seçilen Tarihler: </span>
+            {startDate.toLocaleDateString("tr-TR")} -{" "}
+            {endDate.toLocaleDateString("tr-TR")}
+          </div>
+        )}
+        <div className="text-lg font-bold">
+          {nights > 0
+            ? `${nights} gece – Toplam: ${totalPrice}₺`
+            : "Tarih seçiniz"}
+        </div>
+        {isOverlapping() && (
+          <p className="text-red-600 font-semibold">
+            Seçilen tarihler doludur. Lütfen başka bir aralık seçin.
+          </p>
+        )}
+        <button
+          onClick={clearDates}
+          className="text-sm text-red-600 hover:underline self-start mb-6"
+        >
+          Tarihleri Temizle
+        </button>
+      </div>
+
+      {/* Misafir Seçimi */}
+      <div className="bg-white p-4 rounded shadow mb-6">
+        <h3 className="text-xl font-semibold mb-4">Misafir Sayısı</h3>
+        <div className="mb-4">
+          <label className="block font-medium text-sm">Yetişkin</label>
+          <input
+            type="number"
+            min={1}
+            value={adults}
+            onChange={(e) => {
+              const val = parseInt(e.target.value);
+              if (!isNaN(val) && val > 0) setAdults(val);
+            }}
+            className="border rounded px-3 py-2 w-full"
+          />
+        </div>
+        <div>
+          <label className="block font-medium text-sm">Çocuk (0-12 yaş)</label>
+          <input
+            type="number"
+            min={0}
+            value={children}
+            onChange={(e) => {
+              const val = parseInt(e.target.value);
+              if (!isNaN(val) && val >= 0) setChildren(val);
+            }}
+            className="border rounded px-3 py-2 w-full"
+          />
+        </div>
+      </div>
+      <button
+        onClick={handleAddToCart}
+        disabled={!startDate || !endDate || isOverlapping()}
+        className={`w-full py-3 font-semibold rounded text-white transition-colors ${
+          !startDate || !endDate || isOverlapping()
+            ? "bg-gray-400 cursor-not-allowed"
+            : "bg-[#260B01] hover:bg-[#3b1902]"
+        }`}
+      >
+        Rezervasyon Yap
+      </button>
+
+      {/* Yorumlar */}
+      <div className="mt-10 bg-white p-4 rounded shadow">
+        <h3 className="text-xl font-semibold mb-4">Yorumlar</h3>
+        {comments.map(({ user, text, rating }, idx) => (
+          <div
+            key={idx}
+            className="border-b border-gray-300 last:border-none py-4 flex gap-4 items-start"
+          >
+            <FaUserCircle className="text-4xl text-gray-500 flex-shrink-0" />
+            <div className="flex-1">
+              <p className="font-semibold">{user}</p>
+              <div className="flex items-center text-yellow-500 mb-1">
+                {[...Array(5)].map((_, i) => (
+                  <FaStar
+                    key={i}
+                    className={i < rating ? "fill-current" : "text-gray-300"}
+                  />
+                ))}
+              </div>
+              <p className="text-gray-700">{text}</p>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

@@ -2,8 +2,25 @@
 
 import { motion } from "framer-motion";
 import { User } from "lucide-react";
+import { useEffect, useState } from "react";
 
 export default function UsersPage() {
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const res = await fetch("http://localhost:5254/api/admin/users");
+        const data = await res.json();
+        setUsers(data);
+      } catch (err) {
+        console.error("Kullanıcıları alırken hata oluştu:", err);
+      }
+    };
+
+    fetchUsers();
+  }, []);
+
   return (
     <motion.div
       className="min-h-screen bg-gray-50 p-8"
@@ -27,15 +44,15 @@ export default function UsersPage() {
         </p>
 
         <div className="mt-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-          {[...Array(6)].map((_, i) => (
+          {users.map((user, i) => (
             <motion.div
               key={i}
               className="p-4 bg-gray-100 rounded-xl shadow-sm"
               whileHover={{ scale: 1.03 }}
               transition={{ type: "spring", stiffness: 300 }}
             >
-              <p className="text-gray-800 font-semibold">Kullanıcı {i + 1}</p>
-              <p className="text-gray-500 text-sm">user{i + 1}@example.com</p>
+              <p className="text-gray-800 font-semibold">{user.username}</p>
+              <p className="text-gray-500 text-sm">{user.email}</p>
             </motion.div>
           ))}
         </div>
