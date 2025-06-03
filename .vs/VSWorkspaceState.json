@@ -1,6 +1,13 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\frontend",
+    "\\frontend\\src",
+    "\\frontend\\src\\app",
+    "\\frontend\\src\\app\\login",
+    "\\frontend\\src\\app\\my-reviews",
+    "\\frontend\\src\\app\\tenant2",
+    "\\frontend\\src\\components"
   ],
   "PreviewInSolutionExplorer": false
 }
