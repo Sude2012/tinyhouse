@@ -283,3 +283,6 @@ C:\Users\Beyza\source\repos\Sude2012\tinyhouse\Api\obj\Debug\net9.0\staticwebass
 C:\Users\Beyza\source\repos\Sude2012\tinyhouse\Api\obj\Debug\net9.0\Api.csproj.Up2Date
 C:\Users\Beyza\source\repos\Sude2012\tinyhouse\Api\obj\Debug\net9.0\Api.genruntimeconfig.cache
 C:\Users\Beyza\source\repos\Sude2012\tinyhouse\Api\obj\Debug\net9.0\ref\Api.dll
+C:\Users\Beyza\source\repos\Sude2012\tinyhouse\Api\bin\Debug\net9.0\BouncyCastle.Cryptography.dll
+C:\Users\Beyza\source\repos\Sude2012\tinyhouse\Api\bin\Debug\net9.0\MailKit.dll
+C:\Users\Beyza\source\repos\Sude2012\tinyhouse\Api\bin\Debug\net9.0\MimeKit.dll

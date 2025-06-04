@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using BCrypt.Net;
 using System.Text.Json.Serialization;
 using System.Data;
+using Helpers;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -31,13 +32,17 @@ app.MapPost("/api/signup", async (User user, IConfiguration configuration) =>
 {
     var connectionString = configuration.GetConnectionString("DefaultConnection");
     using var conn = new SqlConnection(connectionString);
-    var query = "INSERT INTO Users (Username, Email, PasswordHash) VALUES (@Username, @Email, @PasswordHash)";
+
+    // Varsayılan olarak "Tenant" ver ama geleni kullan!
+    string userType = string.IsNullOrEmpty(user.UserType) ? "Tenant" : user.UserType;
+
+    var query = "INSERT INTO Users (Username, Email, PasswordHash, UserType) VALUES (@Username, @Email, @PasswordHash, @UserType)";
     var cmd = new SqlCommand(query, conn);
     cmd.Parameters.AddWithValue("@Username", user.Username);
     cmd.Parameters.AddWithValue("@Email", user.Email);
-
     string hashedPassword = BCrypt.Net.BCrypt.HashPassword(user.Password ?? "");
     cmd.Parameters.AddWithValue("@PasswordHash", hashedPassword);
+    cmd.Parameters.AddWithValue("@UserType", userType);
 
     try
     {
@@ -50,6 +55,7 @@ app.MapPost("/api/signup", async (User user, IConfiguration configuration) =>
         return Results.BadRequest(new { message = "Kayıt başarısız: " + ex.Message });
     }
 });
+
 
 
 // Tüm evleri listeleyen endpoint
@@ -86,18 +92,19 @@ app.MapGet("/api/houses/all", async (IConfiguration configuration) =>
             Id = Convert.ToInt32(reader["Id"]),
             City = reader["City"].ToString(),
             Country = reader["Country"].ToString(),
-            BedroomCount = Convert.ToInt32(reader["BedroomCount"]),
-            BathroomCount = Convert.ToInt32(reader["BathroomCount"]),
-            PricePerNight = Convert.ToDecimal(reader["PricePerNight"]),
+            BedroomCount = reader["BedroomCount"] == DBNull.Value ? 0 : Convert.ToInt32(reader["BedroomCount"]),
+            BathroomCount = reader["BathroomCount"] == DBNull.Value ? 0 : Convert.ToInt32(reader["BathroomCount"]),
+            PricePerNight = reader["PricePerNight"] == DBNull.Value ? 0 : Convert.ToDecimal(reader["PricePerNight"]),
             Description = reader["Description"].ToString(),
-            Capacity = Convert.ToInt32(reader["Capacity"]),
+            Capacity = reader["Capacity"] == DBNull.Value ? 0 : Convert.ToInt32(reader["Capacity"]),
             CoverImageUrl = reader["ImagePath"].ToString(),
             InteriorImageUrls = reader["RoomImagePaths"].ToString()
-                .Split(',', StringSplitOptions.RemoveEmptyEntries)
-                .Select(url => url.Trim())
-                .ToList(),
-            AverageRating = reader.IsDBNull(10) ? 0 : Convert.ToDouble(reader["AverageRating"])
+         .Split(',', StringSplitOptions.RemoveEmptyEntries)
+         .Select(url => url.Trim())
+         .ToList(),
+            AverageRating = reader["AverageRating"] == DBNull.Value ? 0 : Convert.ToDouble(reader["AverageRating"])
         });
+
     }
 
     return Results.Ok(houseList);
@@ -108,14 +115,29 @@ app.MapGet("/api/houses/all", async (IConfiguration configuration) =>
 
 
 
-// Belirli ID ile evi getirme
 app.MapGet("/api/houses/{id:int}", async (int id, IConfiguration configuration) =>
 {
     var connectionString = configuration.GetConnectionString("DefaultConnection");
     using var conn = new SqlConnection(connectionString);
     await conn.OpenAsync();
 
-    var cmd = new SqlCommand("SELECT * FROM Houses WHERE Id = @Id", conn);
+    var query = @"
+        SELECT
+            h.Id,
+            h.City,
+            h.Country,
+            h.BedroomCount,
+            h.BathroomCount,
+            h.PricePerNight,
+            h.Description,
+            h.ImagePath,
+            h.RoomImagePaths,
+            h.Capacity,
+            dbo.ufnGetHouseAverageRating(h.Id) AS AverageRating
+        FROM Houses h
+        WHERE h.Id = @Id";
+
+    var cmd = new SqlCommand(query, conn);
     cmd.Parameters.AddWithValue("@Id", id);
 
     var reader = await cmd.ExecuteReaderAsync();
@@ -129,13 +151,16 @@ app.MapGet("/api/houses/{id:int}", async (int id, IConfiguration configuration) 
             bedroomCount = Convert.ToInt32(reader["BedroomCount"]),
             bathroomCount = Convert.ToInt32(reader["BathroomCount"]),
             pricePerNight = Convert.ToDecimal(reader["PricePerNight"]),
-            rating = Convert.ToDecimal(reader["Rating"]),
             description = reader["Description"].ToString(),
+            capacity = Convert.ToInt32(reader["Capacity"]),
             coverImageUrl = reader["ImagePath"].ToString(),
             interiorImageUrls = reader["RoomImagePaths"].ToString()
                 .Split(',', StringSplitOptions.RemoveEmptyEntries)
                 .Select(url => url.Trim())
-                .ToList()
+                .ToList(),
+            averageRating = reader.IsDBNull(reader.GetOrdinal("AverageRating"))
+                ? 0
+                : Convert.ToDouble(reader["AverageRating"])
         };
 
         return Results.Ok(house);
@@ -467,6 +492,11 @@ app.MapGet("/api/reservations/by-user", async (HttpRequest request, IConfigurati
     return Results.Ok(result);
 });
 
+
+
+
+
+
 //rezervasyon iptali
 app.MapDelete("/api/reservations/{id:int}", async (int id, IConfiguration configuration) =>
 {
@@ -474,79 +504,71 @@ app.MapDelete("/api/reservations/{id:int}", async (int id, IConfiguration config
     using var conn = new SqlConnection(connectionString);
     await conn.OpenAsync();
 
-    var cmd = new SqlCommand("DELETE FROM Reservations WHERE Id = @Id", conn);
-    cmd.Parameters.AddWithValue("@Id", id);
-    var rows = await cmd.ExecuteNonQueryAsync();
+    // Önce rezervasyonun bilgilerini çekiyoruz
+    string userEmail = null;
+    DateTime? startDate = null, endDate = null;
+    decimal? totalPrice = null;
+    int? houseId = null;
 
-    if (rows > 0)
-        return Results.Ok(new { message = "Rezervasyon silindi." });
-    else
-        return Results.NotFound(new { message = "Rezervasyon bulunamadı." });
-});
+    var selectCmd = new SqlCommand("SELECT UserEmail, StartDate, EndDate, TotalPrice, HouseId FROM Reservations WHERE Id = @Id", conn);
+    selectCmd.Parameters.AddWithValue("@Id", id);
 
-// rezervasyonlarım sayfası için
-app.MapGet("/api/reservations/by-user", async (HttpRequest request, IConfiguration configuration) =>
-{
-    var email = request.Query["email"].ToString();
-    if (string.IsNullOrWhiteSpace(email))
-        return Results.BadRequest("Email gereklidir.");
-
-    var connectionString = configuration.GetConnectionString("DefaultConnection");
-    var result = new List<object>();
-
-    using var conn = new SqlConnection(connectionString);
-    await conn.OpenAsync();
-
-    // House tablosu ile join yaparak konum gösteriyoruz
-    var query = @"
-        SELECT r.Id, r.HouseId, r.StartDate, r.EndDate, r.TotalPrice, 
-               (h.City + ', ' + h.Country) AS HouseLocation
-        FROM Reservations r
-        INNER JOIN Houses h ON r.HouseId = h.Id
-        WHERE r.UserEmail = @UserEmail
-        ORDER BY r.StartDate DESC";
-
-    using var cmd = new SqlCommand(query, conn);
-    cmd.Parameters.AddWithValue("@UserEmail", email);
-
-    using var reader = await cmd.ExecuteReaderAsync();
-    while (await reader.ReadAsync())
+    using (var reader = await selectCmd.ExecuteReaderAsync())
     {
-        result.Add(new
+        if (await reader.ReadAsync())
         {
-            id = reader.GetInt32(0),
-            houseId = reader.GetInt32(1),
-            startDate = reader.GetDateTime(2),
-            endDate = reader.GetDateTime(3),
-            totalPrice = reader.GetDecimal(4),
-            houseLocation = reader.IsDBNull(5) ? null : reader.GetString(5)
-        });
+            userEmail = reader["UserEmail"]?.ToString();
+            startDate = reader["StartDate"] as DateTime?;
+            endDate = reader["EndDate"] as DateTime?;
+            totalPrice = reader["TotalPrice"] as decimal?;
+            houseId = reader["HouseId"] as int?;
+        }
     }
 
-    return Results.Ok(result);
-});
+    // Önce rezervasyon var mı bak, yoksa NotFound döndür
+    if (string.IsNullOrWhiteSpace(userEmail))
+        return Results.NotFound(new { message = "Rezervasyon bulunamadı." });
 
-
-
-//rezervasyon iptali
-app.MapDelete("/api/reservations/{id:int}", async (int id, IConfiguration configuration) =>
-{
-    var connectionString = configuration.GetConnectionString("DefaultConnection");
-    using var conn = new SqlConnection(connectionString);
-    await conn.OpenAsync();
-
-    var cmd = new SqlCommand("DELETE FROM Reservations WHERE Id = @Id", conn);
-    cmd.Parameters.AddWithValue("@Id", id);
-    var rows = await cmd.ExecuteNonQueryAsync();
+    // Silme işlemi
+    var deleteCmd = new SqlCommand("DELETE FROM Reservations WHERE Id = @Id", conn);
+    deleteCmd.Parameters.AddWithValue("@Id", id);
+    var rows = await deleteCmd.ExecuteNonQueryAsync();
 
     if (rows > 0)
-        return Results.Ok(new { message = "Rezervasyon silindi." });
+    {
+        // E-posta gönder
+        try
+        {
+            string subject = "Tiny House Rezervasyon İptali";
+            string body = $@"
+                <h2>Rezervasyonunuz İptal Edildi</h2>
+                <p>
+                
+                  Giriş Tarihi: <b>{startDate:dd.MM.yyyy}</b><br/>
+                  Çıkış Tarihi: <b>{endDate:dd.MM.yyyy}</b><br/>
+                  Toplam Tutar: <b>{totalPrice} ₺</b>
+                </p>
+                <p>Herhangi bir sorunuz olursa bize ulaşabilirsiniz.<br/>Tiny House Ekibi</p>
+            ";
+
+            await EmailHelper.SendEmailAsync(userEmail, subject, body);
+        }
+        catch (Exception ex)
+        {
+            // Opsiyonel: Hata loglama
+            Console.WriteLine($"E-posta gönderilemedi: {ex.Message}");
+        }
+
+        return Results.Ok(new { message = "Rezervasyon silindi ve e-posta bildirimi gönderildi." });
+    }
     else
+    {
         return Results.NotFound(new { message = "Rezervasyon bulunamadı." });
+    }
 });
 
 
-
+//rezervasyon yapma
 app.MapPost("/api/reservations", async (ReservationRequest request, IConfiguration configuration) =>
 {
     if (request.HouseId == null || request.StartDate == null || request.EndDate == null || request.TotalPrice == null || string.IsNullOrWhiteSpace(request.UserEmail))
@@ -570,32 +592,39 @@ app.MapPost("/api/reservations", async (ReservationRequest request, IConfigurati
     cmd.Parameters.AddWithValue("@TotalPrice", request.TotalPrice);
 
     var rows = await cmd.ExecuteNonQueryAsync();
-    return rows > 0
-        ? Results.Ok(new { message = "Rezervasyon başarıyla kaydedildi." })
-        : Results.BadRequest(new { message = "Rezervasyon kaydedilemedi." });
+
+   
+    // Rezervasyon başarılıysa mail gönder
+    if (rows > 0)
+    {
+        try
+        {
+            string subject = "Tiny House Rezervasyon Onayı";
+            string body = $@"
+            <h2>Rezervasyonunuz Onaylandı!</h2>
+            <p>
+              Giriş Tarihi: <b>{Convert.ToDateTime(request.StartDate):dd.MM.yyyy}</b><br/>
+              Çıkış Tarihi: <b>{Convert.ToDateTime(request.EndDate):dd.MM.yyyy}</b><br/>
+              Toplam Tutar: <b>{request.TotalPrice} ₺</b>
+            </p>
+            <p>İyi tatiller dileriz!<br/>Tiny House Ekibi</p>
+        ";
+
+            await EmailHelper.SendEmailAsync(request.UserEmail, subject, body);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"E-posta gönderilemedi: {ex.Message}");
+        }
+
+        return Results.Ok(new { message = "Rezervasyon başarıyla kaydedildi. Onay e-postası gönderildi." });
+    }
+    else
+    {
+        return Results.BadRequest(new { message = "Rezervasyon kaydedilemedi." });
+    }
+
 });
-
-app.MapPost("/api/reservations", async (ReservationRequest req, IConfiguration configuration) =>
-{
-    var connectionString = configuration.GetConnectionString("DefaultConnection");
-    using var conn = new SqlConnection(connectionString);
-    await conn.OpenAsync();
-
-    var cmd = new SqlCommand(@"
-        INSERT INTO Reservations (HouseId, UserEmail, StartDate, EndDate, TotalPrice)
-        VALUES (@HouseId, @UserEmail, @StartDate, @EndDate, @TotalPrice);
-        SELECT SCOPE_IDENTITY();", conn);
-    cmd.Parameters.AddWithValue("@HouseId", req.HouseId);
-    cmd.Parameters.AddWithValue("@UserEmail", req.UserEmail);
-    cmd.Parameters.AddWithValue("@StartDate", req.StartDate);
-    cmd.Parameters.AddWithValue("@EndDate", req.EndDate);
-    cmd.Parameters.AddWithValue("@TotalPrice", req.TotalPrice);
-
-    var id = Convert.ToInt32(await cmd.ExecuteScalarAsync());
-
-    return Results.Ok(new { message = "Rezervasyon başarıyla kaydedildi.", reservationId = id });
-});
-
 
 
 // Admin tüm evleri kullanıcı adıyla getir
@@ -883,7 +912,7 @@ app.MapGet("/api/reviews/by-user", async (HttpRequest request, IConfiguration co
 
 
 
-
+//popüler evler
 app.MapGet("/api/houses/popular", async (IConfiguration configuration) =>
 {
     var connectionString = configuration.GetConnectionString("DefaultConnection");
@@ -903,17 +932,17 @@ app.MapGet("/api/houses/popular", async (IConfiguration configuration) =>
             Id = Convert.ToInt32(reader["Id"]),
             City = reader["City"].ToString(),
             Country = reader["Country"].ToString(),
-            BedroomCount = Convert.ToInt32(reader["BedroomCount"]),
-            BathroomCount = Convert.ToInt32(reader["BathroomCount"]),
-            PricePerNight = Convert.ToDecimal(reader["PricePerNight"]),
+            BedroomCount = reader["BedroomCount"] == DBNull.Value ? 0 : Convert.ToInt32(reader["BedroomCount"]),
+            BathroomCount = reader["BathroomCount"] == DBNull.Value ? 0 : Convert.ToInt32(reader["BathroomCount"]),
+            PricePerNight = reader["PricePerNight"] == DBNull.Value ? 0 : Convert.ToDecimal(reader["PricePerNight"]),
             Description = reader["Description"].ToString(),
-            Capacity = Convert.ToInt32(reader["Capacity"]),
-            CoverImageUrl = reader["CoverImageUrl"].ToString(),
+            Capacity = reader["Capacity"] == DBNull.Value ? 0 : Convert.ToInt32(reader["Capacity"]),
+            CoverImageUrl = reader["ImagePath"].ToString(),
             InteriorImageUrls = reader["RoomImagePaths"].ToString()
-               .Split(',', StringSplitOptions.RemoveEmptyEntries)
-               .Select(url => url.Trim())
-               .ToList(),
-            AverageRating = reader.IsDBNull(reader.GetOrdinal("AverageRating")) ? 0 : Convert.ToInt32(reader["AverageRating"])
+         .Split(',', StringSplitOptions.RemoveEmptyEntries)
+         .Select(url => url.Trim())
+         .ToList(),
+            AverageRating = reader["AverageRating"] == DBNull.Value ? 0 : Convert.ToDouble(reader["AverageRating"])
         });
     }
     return Results.Ok(popularHouses);
@@ -1060,6 +1089,8 @@ app.MapGet("/api/houses/filter", async (HttpRequest request, IConfiguration conf
 
 
 
+
+
 app.Run();
 
 // MODELLER
@@ -1068,6 +1099,7 @@ public class User
     public string? Username { get; set; }
     public string? Email { get; set; }
     public string? Password { get; set; } // Ham şifre
+    public string? UserType { get; set; }
 }
 
 public class ReservationRequest

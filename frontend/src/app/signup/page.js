@@ -26,11 +26,13 @@ export default function SignupPage() {
     const response = await fetch("http://localhost:5254/api/signup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        username: name,
-        email: email,
-        password: password,
-      }),
+        body: JSON.stringify({
+            username: ownerCompanyName,
+            email: ownerEmail,
+            password: ownerPassword,
+            userType: "Tenant", // EKLE
+        }),
+
     });
 
     const data = await response.json();
@@ -54,7 +56,8 @@ export default function SignupPage() {
       body: JSON.stringify({
         username: ownerCompanyName,
         email: ownerEmail,
-        password: ownerPassword,
+          password: ownerPassword,
+          userType: "Owner",
       }),
     });
 

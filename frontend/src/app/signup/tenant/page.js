@@ -24,11 +24,13 @@ export default function TenantSignupPage() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        username: name, // Kullanıcı adı
-        email: email, // Email
-        passwordHash: hashedPassword, // Hashlenmiş şifre
-      }),
+        body: JSON.stringify({
+            username: name,
+            email: email,
+            password: password,
+            userType: userType // EKLE
+        }),
+
     });
 
     const data = await response.json(); // API'den gelen yanıtı al

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "7MDfFNZbq66vYM/j79Pq6Uo73w8MYetAfsSXtk00xPk=",
+  "Hash": "SEoTXI6arHyZ29f/QXLD58tG+m1wssEqDbxTcO7aRJ0=",
   "Source": "Api",
   "BasePath": "_content/Api",
   "Mode": "Default",
@@ -78,6 +78,27 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\0418ada8-acea-42fb-84a0-63ce0f1ac5c6.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\Beyza\\source\\repos\\Sude2012\\tinyhouse\\Api\\wwwroot\\images\\0965eb8f-dd0e-43ce-92ef-f919708bb800.jpg",
+      "SourceId": "Api",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Beyza\\source\\repos\\Sude2012\\tinyhouse\\Api\\wwwroot\\",
+      "BasePath": "_content/Api",
+      "RelativePath": "images/0965eb8f-dd0e-43ce-92ef-f919708bb800#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "achet1n91t",
+      "Integrity": "SuDrDTqaQNUcI0PH2JUEr/SgzsMmIn2OE2w8z9oiYyc=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\0965eb8f-dd0e-43ce-92ef-f919708bb800.jpg"
     },
     {
       "Identity": "C:\\Users\\Beyza\\source\\repos\\Sude2012\\tinyhouse\\Api\\wwwroot\\images\\0d2f559c-4754-455a-a0a6-485d89113fde.webp",
@@ -435,6 +456,27 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\40034e07-f286-4485-8844-f02a5a09d257.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\Beyza\\source\\repos\\Sude2012\\tinyhouse\\Api\\wwwroot\\images\\41180ac3-4eae-4123-9647-7e82840c293b.jpg",
+      "SourceId": "Api",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Beyza\\source\\repos\\Sude2012\\tinyhouse\\Api\\wwwroot\\",
+      "BasePath": "_content/Api",
+      "RelativePath": "images/41180ac3-4eae-4123-9647-7e82840c293b#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "snk3ymekrl",
+      "Integrity": "qBpd9ev129b95EnCk+JlR17pxT3/BGbbN8J1+MBocwo=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\41180ac3-4eae-4123-9647-7e82840c293b.jpg"
     },
     {
       "Identity": "C:\\Users\\Beyza\\source\\repos\\Sude2012\\tinyhouse\\Api\\wwwroot\\images\\43ca927e-278d-4e28-80b3-93ce0623652b.jpg",
@@ -983,6 +1025,27 @@
       "OriginalItemSpec": "wwwroot\\images\\794d3db8-d306-48b4-9858-1d7f6c1e0aae.jpg"
     },
     {
+      "Identity": "C:\\Users\\Beyza\\source\\repos\\Sude2012\\tinyhouse\\Api\\wwwroot\\images\\7ca0d102-59d7-435a-a9c4-1b00c0e21088.jpg",
+      "SourceId": "Api",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Beyza\\source\\repos\\Sude2012\\tinyhouse\\Api\\wwwroot\\",
+      "BasePath": "_content/Api",
+      "RelativePath": "images/7ca0d102-59d7-435a-a9c4-1b00c0e21088#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "bf18okyi6h",
+      "Integrity": "yb6TKYGxv72Haz38sV2rw+daEJBnNLmGDy1BUo0/uHU=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\7ca0d102-59d7-435a-a9c4-1b00c0e21088.jpg"
+    },
+    {
       "Identity": "C:\\Users\\Beyza\\source\\repos\\Sude2012\\tinyhouse\\Api\\wwwroot\\images\\7e04cb18-4c77-4095-9574-1fe8f9bf3ee0.jpg",
       "SourceId": "Api",
       "SourceType": "Discovered",
@@ -1191,6 +1254,27 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\9d6c2494-1c55-4f37-8173-d5bdb81d38fe.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\Beyza\\source\\repos\\Sude2012\\tinyhouse\\Api\\wwwroot\\images\\9dc89d6d-05e1-4d17-8f5c-63ee1640db29.jpg",
+      "SourceId": "Api",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Beyza\\source\\repos\\Sude2012\\tinyhouse\\Api\\wwwroot\\",
+      "BasePath": "_content/Api",
+      "RelativePath": "images/9dc89d6d-05e1-4d17-8f5c-63ee1640db29#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "azg3p4ko5a",
+      "Integrity": "Sv6xFFQK1OWSL1/2zsnD0zAZJ3HhWScQz3kfHyFQZzo=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\9dc89d6d-05e1-4d17-8f5c-63ee1640db29.jpg"
     },
     {
       "Identity": "C:\\Users\\Beyza\\source\\repos\\Sude2012\\tinyhouse\\Api\\wwwroot\\images\\a022a974-478d-4681-a4dc-f03f5c75039d.jpg",
@@ -1697,6 +1781,27 @@
       "OriginalItemSpec": "wwwroot\\images\\e9e1b64d-a544-4c06-a493-a87488ce47c7.jpg"
     },
     {
+      "Identity": "C:\\Users\\Beyza\\source\\repos\\Sude2012\\tinyhouse\\Api\\wwwroot\\images\\eeb1d988-41d6-4da4-aff6-700304458808.jpg",
+      "SourceId": "Api",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Beyza\\source\\repos\\Sude2012\\tinyhouse\\Api\\wwwroot\\",
+      "BasePath": "_content/Api",
+      "RelativePath": "images/eeb1d988-41d6-4da4-aff6-700304458808#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "snk3ymekrl",
+      "Integrity": "qBpd9ev129b95EnCk+JlR17pxT3/BGbbN8J1+MBocwo=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\eeb1d988-41d6-4da4-aff6-700304458808.jpg"
+    },
+    {
       "Identity": "C:\\Users\\Beyza\\source\\repos\\Sude2012\\tinyhouse\\Api\\wwwroot\\images\\eff24761-71d4-4cb6-938b-ca53699c096b.jpg",
       "SourceId": "Api",
       "SourceType": "Discovered",
@@ -1716,6 +1821,27 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\eff24761-71d4-4cb6-938b-ca53699c096b.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\Beyza\\source\\repos\\Sude2012\\tinyhouse\\Api\\wwwroot\\images\\f06feb19-845b-4d60-94a9-f2a6c847d5e5.jpg",
+      "SourceId": "Api",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Beyza\\source\\repos\\Sude2012\\tinyhouse\\Api\\wwwroot\\",
+      "BasePath": "_content/Api",
+      "RelativePath": "images/f06feb19-845b-4d60-94a9-f2a6c847d5e5#[.{fingerprint}]?.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "bf18okyi6h",
+      "Integrity": "yb6TKYGxv72Haz38sV2rw+daEJBnNLmGDy1BUo0/uHU=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\f06feb19-845b-4d60-94a9-f2a6c847d5e5.jpg"
     },
     {
       "Identity": "C:\\Users\\Beyza\\source\\repos\\Sude2012\\tinyhouse\\Api\\wwwroot\\images\\f1c31ceb-7db4-405f-9bf9-bd25aa85af17.jpg",
@@ -2172,6 +2298,88 @@
         {
           "Name": "integrity",
           "Value": "sha256-u5e+Kedh201f2SadVysp+F/S/NxogCUy95QEId2jCTA="
+        }
+      ]
+    },
+    {
+      "Route": "images/0965eb8f-dd0e-43ce-92ef-f919708bb800.achet1n91t.jpg",
+      "AssetFile": "C:\\Users\\Beyza\\source\\repos\\Sude2012\\tinyhouse\\Api\\wwwroot\\images\\0965eb8f-dd0e-43ce-92ef-f919708bb800.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "204928"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"SuDrDTqaQNUcI0PH2JUEr/SgzsMmIn2OE2w8z9oiYyc=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 03 Jun 2025 22:19:03 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "achet1n91t"
+        },
+        {
+          "Name": "label",
+          "Value": "images/0965eb8f-dd0e-43ce-92ef-f919708bb800.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-SuDrDTqaQNUcI0PH2JUEr/SgzsMmIn2OE2w8z9oiYyc="
+        }
+      ]
+    },
+    {
+      "Route": "images/0965eb8f-dd0e-43ce-92ef-f919708bb800.jpg",
+      "AssetFile": "C:\\Users\\Beyza\\source\\repos\\Sude2012\\tinyhouse\\Api\\wwwroot\\images\\0965eb8f-dd0e-43ce-92ef-f919708bb800.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "204928"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"SuDrDTqaQNUcI0PH2JUEr/SgzsMmIn2OE2w8z9oiYyc=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 03 Jun 2025 22:19:03 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-SuDrDTqaQNUcI0PH2JUEr/SgzsMmIn2OE2w8z9oiYyc="
         }
       ]
     },
@@ -3566,6 +3774,88 @@
         {
           "Name": "integrity",
           "Value": "sha256-79slIuXneQHi/FWyQkXUqoCBbJoWtyKaJlKTly6Uqz4="
+        }
+      ]
+    },
+    {
+      "Route": "images/41180ac3-4eae-4123-9647-7e82840c293b.jpg",
+      "AssetFile": "C:\\Users\\Beyza\\source\\repos\\Sude2012\\tinyhouse\\Api\\wwwroot\\images\\41180ac3-4eae-4123-9647-7e82840c293b.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "120186"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"qBpd9ev129b95EnCk+JlR17pxT3/BGbbN8J1+MBocwo=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 03 Jun 2025 22:19:03 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-qBpd9ev129b95EnCk+JlR17pxT3/BGbbN8J1+MBocwo="
+        }
+      ]
+    },
+    {
+      "Route": "images/41180ac3-4eae-4123-9647-7e82840c293b.snk3ymekrl.jpg",
+      "AssetFile": "C:\\Users\\Beyza\\source\\repos\\Sude2012\\tinyhouse\\Api\\wwwroot\\images\\41180ac3-4eae-4123-9647-7e82840c293b.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "120186"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"qBpd9ev129b95EnCk+JlR17pxT3/BGbbN8J1+MBocwo=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 03 Jun 2025 22:19:03 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "snk3ymekrl"
+        },
+        {
+          "Name": "label",
+          "Value": "images/41180ac3-4eae-4123-9647-7e82840c293b.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-qBpd9ev129b95EnCk+JlR17pxT3/BGbbN8J1+MBocwo="
         }
       ]
     },
@@ -5702,6 +5992,88 @@
       ]
     },
     {
+      "Route": "images/7ca0d102-59d7-435a-a9c4-1b00c0e21088.bf18okyi6h.jpg",
+      "AssetFile": "C:\\Users\\Beyza\\source\\repos\\Sude2012\\tinyhouse\\Api\\wwwroot\\images\\7ca0d102-59d7-435a-a9c4-1b00c0e21088.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "138342"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"yb6TKYGxv72Haz38sV2rw+daEJBnNLmGDy1BUo0/uHU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 03 Jun 2025 22:19:03 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "bf18okyi6h"
+        },
+        {
+          "Name": "label",
+          "Value": "images/7ca0d102-59d7-435a-a9c4-1b00c0e21088.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-yb6TKYGxv72Haz38sV2rw+daEJBnNLmGDy1BUo0/uHU="
+        }
+      ]
+    },
+    {
+      "Route": "images/7ca0d102-59d7-435a-a9c4-1b00c0e21088.jpg",
+      "AssetFile": "C:\\Users\\Beyza\\source\\repos\\Sude2012\\tinyhouse\\Api\\wwwroot\\images\\7ca0d102-59d7-435a-a9c4-1b00c0e21088.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "138342"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"yb6TKYGxv72Haz38sV2rw+daEJBnNLmGDy1BUo0/uHU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 03 Jun 2025 22:19:03 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-yb6TKYGxv72Haz38sV2rw+daEJBnNLmGDy1BUo0/uHU="
+        }
+      ]
+    },
+    {
       "Route": "images/7e04cb18-4c77-4095-9574-1fe8f9bf3ee0.jpg",
       "AssetFile": "C:\\Users\\Beyza\\source\\repos\\Sude2012\\tinyhouse\\Api\\wwwroot\\images\\7e04cb18-4c77-4095-9574-1fe8f9bf3ee0.jpg",
       "Selectors": [],
@@ -6518,6 +6890,88 @@
         {
           "Name": "integrity",
           "Value": "sha256-GpKJkJLdFQJoNNyaI0fEMFywfbYSnAnZf5jMlDMkEeY="
+        }
+      ]
+    },
+    {
+      "Route": "images/9dc89d6d-05e1-4d17-8f5c-63ee1640db29.azg3p4ko5a.jpg",
+      "AssetFile": "C:\\Users\\Beyza\\source\\repos\\Sude2012\\tinyhouse\\Api\\wwwroot\\images\\9dc89d6d-05e1-4d17-8f5c-63ee1640db29.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "116435"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"Sv6xFFQK1OWSL1/2zsnD0zAZJ3HhWScQz3kfHyFQZzo=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 03 Jun 2025 22:19:03 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "azg3p4ko5a"
+        },
+        {
+          "Name": "label",
+          "Value": "images/9dc89d6d-05e1-4d17-8f5c-63ee1640db29.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-Sv6xFFQK1OWSL1/2zsnD0zAZJ3HhWScQz3kfHyFQZzo="
+        }
+      ]
+    },
+    {
+      "Route": "images/9dc89d6d-05e1-4d17-8f5c-63ee1640db29.jpg",
+      "AssetFile": "C:\\Users\\Beyza\\source\\repos\\Sude2012\\tinyhouse\\Api\\wwwroot\\images\\9dc89d6d-05e1-4d17-8f5c-63ee1640db29.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "116435"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"Sv6xFFQK1OWSL1/2zsnD0zAZJ3HhWScQz3kfHyFQZzo=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 03 Jun 2025 22:19:03 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-Sv6xFFQK1OWSL1/2zsnD0zAZJ3HhWScQz3kfHyFQZzo="
         }
       ]
     },
@@ -8490,6 +8944,88 @@
       ]
     },
     {
+      "Route": "images/eeb1d988-41d6-4da4-aff6-700304458808.jpg",
+      "AssetFile": "C:\\Users\\Beyza\\source\\repos\\Sude2012\\tinyhouse\\Api\\wwwroot\\images\\eeb1d988-41d6-4da4-aff6-700304458808.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "120186"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"qBpd9ev129b95EnCk+JlR17pxT3/BGbbN8J1+MBocwo=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 03 Jun 2025 22:19:03 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-qBpd9ev129b95EnCk+JlR17pxT3/BGbbN8J1+MBocwo="
+        }
+      ]
+    },
+    {
+      "Route": "images/eeb1d988-41d6-4da4-aff6-700304458808.snk3ymekrl.jpg",
+      "AssetFile": "C:\\Users\\Beyza\\source\\repos\\Sude2012\\tinyhouse\\Api\\wwwroot\\images\\eeb1d988-41d6-4da4-aff6-700304458808.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "120186"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"qBpd9ev129b95EnCk+JlR17pxT3/BGbbN8J1+MBocwo=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 03 Jun 2025 22:19:03 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "snk3ymekrl"
+        },
+        {
+          "Name": "label",
+          "Value": "images/eeb1d988-41d6-4da4-aff6-700304458808.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-qBpd9ev129b95EnCk+JlR17pxT3/BGbbN8J1+MBocwo="
+        }
+      ]
+    },
+    {
       "Route": "images/eff24761-71d4-4cb6-938b-ca53699c096b.jpg",
       "AssetFile": "C:\\Users\\Beyza\\source\\repos\\Sude2012\\tinyhouse\\Api\\wwwroot\\images\\eff24761-71d4-4cb6-938b-ca53699c096b.jpg",
       "Selectors": [],
@@ -8568,6 +9104,88 @@
         {
           "Name": "integrity",
           "Value": "sha256-RaZtVHdfDwYJRWYGrS0YvHSYOTzg29W97NDm6EbTedg="
+        }
+      ]
+    },
+    {
+      "Route": "images/f06feb19-845b-4d60-94a9-f2a6c847d5e5.bf18okyi6h.jpg",
+      "AssetFile": "C:\\Users\\Beyza\\source\\repos\\Sude2012\\tinyhouse\\Api\\wwwroot\\images\\f06feb19-845b-4d60-94a9-f2a6c847d5e5.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "138342"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"yb6TKYGxv72Haz38sV2rw+daEJBnNLmGDy1BUo0/uHU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 03 Jun 2025 22:19:03 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "bf18okyi6h"
+        },
+        {
+          "Name": "label",
+          "Value": "images/f06feb19-845b-4d60-94a9-f2a6c847d5e5.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-yb6TKYGxv72Haz38sV2rw+daEJBnNLmGDy1BUo0/uHU="
+        }
+      ]
+    },
+    {
+      "Route": "images/f06feb19-845b-4d60-94a9-f2a6c847d5e5.jpg",
+      "AssetFile": "C:\\Users\\Beyza\\source\\repos\\Sude2012\\tinyhouse\\Api\\wwwroot\\images\\f06feb19-845b-4d60-94a9-f2a6c847d5e5.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "138342"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"yb6TKYGxv72Haz38sV2rw+daEJBnNLmGDy1BUo0/uHU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 03 Jun 2025 22:19:03 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-yb6TKYGxv72Haz38sV2rw+daEJBnNLmGDy1BUo0/uHU="
         }
       ]
     },

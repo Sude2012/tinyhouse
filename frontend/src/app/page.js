@@ -70,19 +70,23 @@ const HomePage = () => {
     // Tüm evleri objeye çevir ve filtre uygula
     const allHouses = dbHouses.map((ev) => ({
         id: ev.id,
-        location: `${ev.city}, ${ev.country}`,
-        beds: ev.bedroomCount,
-        baths: ev.bathroomCount,
-        price: ev.pricePerNight,
+        city: ev.city,
+        country: ev.country,
+        bedroomCount: ev.bedroomCount,
+        bathroomCount: ev.bathroomCount,
+        pricePerNight: ev.pricePerNight,
         averageRating: ev.averageRating,
         capacity: ev.capacity,
-        image: "http://localhost:5254" + ev.coverImageUrl,
+        coverImageUrl: ev.coverImageUrl ? "http://localhost:5254" + ev.coverImageUrl : "/placeholder.jpg",
+        location: ev.city && ev.country ? `${ev.city}, ${ev.country}` : "" // DAİMA location oluştur
     }));
+
+
 
     // Filtre parametresine göre (veya ilk açıldığında) filtreli evleri ayarla
     useEffect(() => {
         if (!cityQuery.trim()) {
-            setFilteredHouses(allHouses);
+            setFilteredHouses(allHouses); // Tüm evleri göster
             setLocationQuery("");
         } else {
             setFilteredHouses(
@@ -92,8 +96,8 @@ const HomePage = () => {
             );
             setLocationQuery(cityQuery);
         }
-        // eslint-disable-next-line
     }, [cityQuery, dbHouses]);
+
 
     return (
         <div
@@ -240,27 +244,34 @@ const HomePage = () => {
                     </div>
                 )}
             </div>
-
             {/* Ev Kartları */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-10 w-full max-w-6xl text-[#260B01]">
                 {filteredHouses.length === 0 ? (
-                    <div className="col-span-3 text-center text-lg font-semibold">Aradığınız şehre uygun ev bulunamadı.</div>
+                    <div className="col-span-3 text-center text-lg font-semibold">
+                        Aradığınız şehre uygun ev bulunamadı.
+                    </div>
                 ) : (
                     filteredHouses.map((house, index) => (
-                        <Link key={house.id + "_" + index} href={`/houses/${house.id}`}
-                            className="block bg-white rounded-lg overflow-hidden shadow-md relative cursor-pointer hover:shadow-xl transition-shadow">
-                            <img src={house.image} alt={`Ev ${house.id}`} className="w-full h-48 object-cover" />
+                        <Link key={house.id + "_" + index}
+                            href={`/houses/${house.id}`}
+                            className="block bg-white rounded-lg overflow-hidden shadow-md relative cursor-pointer hover:shadow-xl transition-shadow "
+                        >
+                            <img
+                                src={house.coverImageUrl || house.image || "/placeholder.jpg"}
+                                alt={`Ev ${house.id}`}
+                                className="w-full h-48 object-cover"
+                            />
                             <div className="p-4">
-                                <h2 className="text-xl font-semibold mb-1">{house.location}</h2>
-                                <div className="flex items-center gap-4 text-sm mb-2">
-                                    <div className="flex items-center gap-1"><FaBed /> {house.beds} Yatak Odası</div>
-                                    <div className="flex items-center gap-1"><FaBath /> {house.baths} Banyo</div>
-                                    <div className="flex items-center gap-1">
-                                        <FaUserCircle /> {house.capacity} Kişi
+                                <div>
+                                    <h2 className="text-base font-semibold mb-1 truncate">{house.city ? `${house.city}, ${house.country}` : house.location}</h2>
+                                    <div className="flex items-center gap-2 text-sm mb-2">
+                                        <div className="flex items-center gap-1"><FaBed /> {house.bedroomCount || house.beds} Yatak Odası</div>
+                                        <div className="flex items-center gap-1"><FaBath /> {house.bathroomCount || house.baths} Banyo</div>
+                                        <div className="flex items-center gap-1"><FaUserCircle /> {house.capacity} Kişi</div>
                                     </div>
                                 </div>
                                 <div className="flex justify-between items-center">
-                                    <span className="font-bold">₺{house.price}/gece</span>
+                                    <span className="font-bold">₺{house.pricePerNight || house.price}/gece</span>
                                     <span className="flex items-center gap-1 text-yellow-500"><FaStar /> {house.averageRating}</span>
                                 </div>
                             </div>
@@ -268,6 +279,7 @@ const HomePage = () => {
                     ))
                 )}
             </div>
+
         </div>
     );
 };
