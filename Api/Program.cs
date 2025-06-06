@@ -152,15 +152,14 @@ app.MapGet("/api/houses/{id:int}", async (int id, IConfiguration configuration) 
             bathroomCount = Convert.ToInt32(reader["BathroomCount"]),
             pricePerNight = Convert.ToDecimal(reader["PricePerNight"]),
             description = reader["Description"].ToString(),
-            capacity = Convert.ToInt32(reader["Capacity"]),
+            capacity = reader["Capacity"] is DBNull ? 1 : Convert.ToInt32(reader["Capacity"]),
             coverImageUrl = reader["ImagePath"].ToString(),
-            interiorImageUrls = reader["RoomImagePaths"].ToString()
-                .Split(',', StringSplitOptions.RemoveEmptyEntries)
-                .Select(url => url.Trim())
-                .ToList(),
+            interiorImageUrls = reader["RoomImagePaths"] is DBNull || string.IsNullOrWhiteSpace(reader["RoomImagePaths"]?.ToString())
+        ? new List<string>()
+        : reader["RoomImagePaths"].ToString().Split(',', StringSplitOptions.RemoveEmptyEntries).Select(url => url.Trim()).ToList(),
             averageRating = reader.IsDBNull(reader.GetOrdinal("AverageRating"))
-                ? 0
-                : Convert.ToDouble(reader["AverageRating"])
+        ? 0
+        : Convert.ToDouble(reader["AverageRating"])
         };
 
         return Results.Ok(house);
@@ -279,6 +278,7 @@ app.MapGet("/api/houses", async (HttpRequest request, IConfiguration configurati
             rating = Convert.ToDecimal(reader["Rating"]),
             description = reader["Description"].ToString(),
             coverImageUrl = reader["ImagePath"].ToString(),
+            capacity = Convert.ToInt32(reader["Capacity"]),
             interiorImageUrls = reader["RoomImagePaths"].ToString()
                 .Split(',', StringSplitOptions.RemoveEmptyEntries)
                 .Select(url => url.Trim())
@@ -334,6 +334,10 @@ app.MapPost("/api/houses", async (HttpRequest request, IConfiguration configurat
 
     if (roomImages.Count != 5)
         return Results.BadRequest(new { message = "5 adet iç görsel yükleyin." });
+    if (!int.TryParse(form["Capacity"], out int capacity))
+    {
+        return Results.BadRequest(new { message = "Kapasite geçersiz." });
+    }
 
     var wwwRootPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
     var imagesPath = Path.Combine(wwwRootPath, "images");
@@ -364,10 +368,10 @@ app.MapPost("/api/houses", async (HttpRequest request, IConfiguration configurat
 
         var query = @"
             INSERT INTO Houses
-            (City, Country, BedroomCount, BathroomCount, PricePerNight, Rating, Description, ImagePath, RoomImagePaths, OwnerId)
-            VALUES
-            (@City, @Country, @BedroomCount, @BathroomCount, @PricePerNight, @Rating, @Description, @ImagePath, @RoomImagePaths, @OwnerId);
-            SELECT CAST(SCOPE_IDENTITY() AS INT);";
+    (City, Country, BedroomCount, BathroomCount, PricePerNight, Rating, Description, ImagePath, RoomImagePaths, OwnerId, Capacity)
+    VALUES
+    (@City, @Country, @BedroomCount, @BathroomCount, @PricePerNight, @Rating, @Description, @ImagePath, @RoomImagePaths, @OwnerId, @Capacity);
+    SELECT CAST(SCOPE_IDENTITY() AS INT);";
 
         using var cmd = new SqlCommand(query, conn);
         cmd.Parameters.AddWithValue("@City", city);
@@ -380,6 +384,7 @@ app.MapPost("/api/houses", async (HttpRequest request, IConfiguration configurat
         cmd.Parameters.AddWithValue("@ImagePath", coverImageUrl);
         cmd.Parameters.AddWithValue("@RoomImagePaths", string.Join(",", interiorImageUrls));
         cmd.Parameters.AddWithValue("@OwnerId", ownerId);
+        cmd.Parameters.AddWithValue("@Capacity", capacity);
 
         var idResult = await cmd.ExecuteScalarAsync();
         if (idResult == null)
@@ -400,6 +405,7 @@ app.MapPost("/api/houses", async (HttpRequest request, IConfiguration configurat
             BathroomCount = bathroomCount,
             PricePerNight = price,
             Rating = rating,
+            Capacity = capacity,
             Description = description,
             CoverImageUrl = coverImageUrl,
             InteriorImageUrls = interiorImageUrls
@@ -851,6 +857,61 @@ app.MapGet("/api/reviews/by-house", async (HttpRequest request, IConfiguration c
 
     return Results.Ok(result);
 });
+app.MapPost("/api/reviews", async (ReviewRequest review, IConfiguration configuration) =>
+{
+    if (review == null || string.IsNullOrWhiteSpace(review.UserEmail) || string.IsNullOrWhiteSpace(review.Comment))
+        return Results.BadRequest(new { message = "Eksik bilgi." });
+
+    var connectionString = configuration.GetConnectionString("DefaultConnection");
+    using var conn = new SqlConnection(connectionString);
+    await conn.OpenAsync();
+
+    var cmd = new SqlCommand(@"
+        INSERT INTO Reviews (HouseId, UserEmail, Comment, Rating, CreatedAt)
+        VALUES (@HouseId, @UserEmail, @Comment, @Rating, GETDATE())", conn);
+
+    cmd.Parameters.AddWithValue("@HouseId", review.HouseId);
+    cmd.Parameters.AddWithValue("@UserEmail", review.UserEmail);
+    cmd.Parameters.AddWithValue("@Comment", review.Comment);
+    cmd.Parameters.AddWithValue("@Rating", review.Rating);
+
+    var affected = await cmd.ExecuteNonQueryAsync();
+
+    // ------ BURADA DEVAM ------
+
+    // Ev sahibinin e-posta adresini bul
+    string ownerEmail = null;
+    var getOwnerCmd = new SqlCommand(@"
+        SELECT u.Email
+        FROM Houses h
+        INNER JOIN Users u ON h.OwnerId = u.Id
+        WHERE h.Id = @HouseId", conn);
+    getOwnerCmd.Parameters.AddWithValue("@HouseId", review.HouseId);
+
+    var result = await getOwnerCmd.ExecuteScalarAsync();
+    if (result != null)
+        ownerEmail = result.ToString();
+
+    // Eğer ev sahibi bulunduysa e-posta gönder
+    if (!string.IsNullOrWhiteSpace(ownerEmail))
+    {
+        string subject = "Tiny House - Yeni Yorum Bildirimi";
+        string body = $@"
+            <h2>Ev ilanınıza yeni bir yorum geldi!</h2>
+            <p>
+                <b>{review.UserEmail}</b> kullanıcısı, ilanınıza {review.Rating} puan vererek şu yorumu yazdı:
+            </p>
+            <blockquote>{review.Comment}</blockquote>
+            <p>Görmek için hemen sisteme giriş yapın.</p>";
+
+        // Mail gönderme fonksiyonunu kullan
+        await EmailHelper.SendEmailAsync(ownerEmail, subject, body);
+    }
+
+    return affected > 0 ? Results.Ok(new { message = "Yorum başarıyla eklendi." }) : Results.BadRequest(new { message = "Yorum eklenemedi." });
+});
+
+
 
 
 //yorum silme
@@ -984,45 +1045,6 @@ app.MapGet("/api/reservations/by-house", async (HttpRequest request, IConfigurat
 
 
 
-app.MapGet("/api/houses", async (HttpRequest request, IConfiguration configuration) =>
-{
-    var city = request.Query["city"].ToString();
-    var connectionString = configuration.GetConnectionString("DefaultConnection");
-    var result = new List<object>();
-
-    using var conn = new SqlConnection(connectionString);
-    await conn.OpenAsync();
-
-    string sql = @"
-        SELECT EvIlanId, Il, YatakOdasiSayisi, BanyoSayisi, GunlukUcret, FotografURL
-        FROM EvIlanlari";
-    SqlCommand cmd;
-    if (!string.IsNullOrWhiteSpace(city))
-    {
-        sql += " WHERE LOWER(Il) LIKE LOWER(@City)";
-        cmd = new SqlCommand(sql, conn);
-        cmd.Parameters.AddWithValue("@City", "%" + city + "%");
-    }
-    else
-    {
-        cmd = new SqlCommand(sql, conn);
-    }
-
-    using var reader = await cmd.ExecuteReaderAsync();
-    while (await reader.ReadAsync())
-    {
-        result.Add(new
-        {
-            id = reader.GetInt32(0),
-            city = reader.GetString(1),
-            beds = reader.GetInt32(2),
-            baths = reader.GetInt32(3),
-            price = reader.GetDecimal(4),
-            image = reader.GetString(5)
-        });
-    }
-    return Results.Ok(result);
-});
 
 
 
@@ -1125,11 +1147,12 @@ public class House
     public decimal PricePerNight { get; set; }
     public decimal Rating { get; set; }
     public decimal AverageRating { get; set; }
-    public IFormFile Image { get; set; }
-    public List<IFormFile> RoomImages { get; set; } // Oda görselleri
+   
 
     public string Description { get; set; }
     public int Capacity { get; set; }
+    public string CoverImageUrl { get; set; } // Kapak fotoğraf yolu
+    public List<string> InteriorImageUrls { get; set; }
 }
 
 
@@ -1139,4 +1162,18 @@ public class ReviewRequest
     public string UserEmail { get; set; }
     public string Comment { get; set; }
     public int Rating { get; set; }
+}
+public class HouseFormModel
+{
+    public string City { get; set; }
+    public string Country { get; set; }
+    public int BedroomCount { get; set; }
+    public int BathroomCount { get; set; }
+    public decimal PricePerNight { get; set; }
+    public decimal Rating { get; set; }
+    public decimal? AverageRating { get; set; }
+    public string Description { get; set; }
+    public int Capacity { get; set; }
+    public IFormFile Image { get; set; }
+    public List<IFormFile> RoomImages { get; set; }
 }

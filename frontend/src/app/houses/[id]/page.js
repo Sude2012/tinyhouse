@@ -16,6 +16,11 @@ export default function HouseDetailPage() {
     const [loginWarning, setLoginWarning] = useState(false);
     const [house, setHouse] = useState(null);
     const [bookedDates, setBookedDates] = useState([]);
+    const getImageUrl = (url) => {
+        if (!url) return "";
+        if (url.startsWith("http")) return url;
+        return `http://localhost:5254${url}`;
+    };
 
     // Rezervasyon tarihleri
     useEffect(() => {
@@ -127,10 +132,11 @@ export default function HouseDetailPage() {
             {/* Fotoğraf Galerisi */}
             <div className="relative w-full h-[400px] mb-6 rounded overflow-hidden shadow-lg">
                 <img
-                    src={house.photos[currentPhoto]}
+                    src={getImageUrl(house.photos[currentPhoto])}
                     alt={`Fotoğraf ${currentPhoto + 1}`}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover rounded"
                 />
+
                 <button onClick={prevPhoto} className="absolute top-1/2 left-2 transform -translate-y-1/2 bg-white bg-opacity-70 rounded-full p-2 shadow hover:bg-opacity-90">‹</button>
                 <button onClick={nextPhoto} className="absolute top-1/2 right-2 transform -translate-y-1/2 bg-white bg-opacity-70 rounded-full p-2 shadow hover:bg-opacity-90">›</button>
                 <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex gap-2">

@@ -14,7 +14,8 @@ export default function NewHouseForm() {
     rating: "",
     description: "",
     coverImage: null,
-    interiorImages: [],
+      interiorImages: [],
+      capacity: "",
   });
   const [editingId, setEditingId] = useState(null);
 
@@ -67,7 +68,9 @@ export default function NewHouseForm() {
     formData.append("PricePerNight", newHouse.pricePerNight);
     formData.append("Rating", newHouse.rating);
     formData.append("Description", newHouse.description);
-    formData.append("OwnerEmail", email);
+      formData.append("OwnerEmail", email);
+      formData.append("Capacity", newHouse.capacity);
+
 
     // Yeni fotoğraf yüklendiyse ekle
     if (newHouse.coverImage) {
@@ -98,7 +101,8 @@ export default function NewHouseForm() {
           rating: "",
           description: "",
           coverImage: null,
-          interiorImages: [],
+            interiorImages: [],
+            capacity: ""
         });
         setEditingId(null);
       } else {
@@ -119,7 +123,8 @@ export default function NewHouseForm() {
       bedroomCount: ev.bedroomCount ?? "",
       bathroomCount: ev.bathroomCount ?? "",
       pricePerNight: ev.pricePerNight ?? "",
-      rating: ev.rating ?? "",
+        rating: ev.rating ?? "",
+        capacity: ev.capacity ?? "",
       description: ev.description ?? "",
       coverImage: null, // Eski görseli forma getirmiyoruz, istenirse yeni seçilebilir
       interiorImages: [],
@@ -192,7 +197,15 @@ export default function NewHouseForm() {
               value={newHouse.pricePerNight}
               onChange={handleInputChange}
               className="input-style"
-            />
+                      />
+                      <input
+                          name="capacity"
+                          type="number"
+                          placeholder="Kapasite (kişi)"
+                          value={newHouse.capacity}
+                          onChange={handleInputChange}
+                          className="input-style"
+                      />
             <input
               name="rating"
               type="number"
@@ -252,9 +265,10 @@ export default function NewHouseForm() {
                   <div className="text-lg font-bold">
                     {ev.city}, {ev.country}
                   </div>
-                  <div className="text-gray-600 text-sm">
-                    {ev.bedroomCount} oda • {ev.bathroomCount} banyo
-                  </div>
+                        <div className="text-gray-600 text-sm">
+                            {ev.bedroomCount} oda • {ev.bathroomCount} banyo • {ev.capacity} kişi
+                        </div>
+
                   <div className="text-sm font-semibold text-green-700">
                     ₺{ev.pricePerNight} / gece
                   </div>
@@ -297,21 +311,28 @@ export default function NewHouseForm() {
         </div>
       </div>
 
-      <style jsx>{`
-        .input-style {
-          width: 100%;
-          padding: 0.75rem;
-          border-radius: 0.5rem;
-          border: 1px solid #d1d5db;
-          background: #f9fafb;
-          font-size: 0.95rem;
-        }
-        .input-style:focus {
-          outline: none;
-          border-color: #2563eb;
-          background: #fff;
-        }
-      `}</style>
+          <style jsx>{`
+  .input-style {
+    width: 100%;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    border: 1px solid #d1d5db;
+    background: #f9fafb;
+    font-size: 0.95rem;
+    color: #111; /* Yazı rengi siyah */
+  }
+  .input-style:focus {
+    outline: none;
+    border-color: #2563eb;
+    background: #fff;
+    color: #111; /* Odaklanınca da siyah kalsın */
+  }
+  .input-style::placeholder {
+    color: #333; /* Placeholder'lar da koyu dursun */
+    opacity: 1;
+  }
+`}</style>
+
     </div>
   );
 }

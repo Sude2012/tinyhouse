@@ -2,13 +2,13 @@
   "ExpandedNodes": [
     "",
     "\\Api",
-    "\\Api\\wwwroot",
     "\\frontend",
     "\\frontend\\src",
     "\\frontend\\src\\app",
-    "\\frontend\\src\\app\\admin-login",
-    "\\frontend\\src\\app\\houses",
-    "\\frontend\\src\\app\\houses\\[id]"
+    "\\frontend\\src\\app\\add-review",
+    "\\frontend\\src\\app\\my-reservations",
+    "\\frontend\\src\\app\\reservation-confirmation",
+    "\\frontend\\src\\app\\signup"
   ],
   "SelectedNode": "\\Api\\Program.cs",
   "PreviewInSolutionExplorer": false

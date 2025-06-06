@@ -26,6 +26,11 @@ const HomePage = () => {
     const [checkIn, setCheckIn] = useState("");
     const [checkOut, setCheckOut] = useState("");
     const totalGuests = adultCount + childCount;
+    const getFullImageUrl = (url) => {
+        if (!url) return "/placeholder.jpg";
+        return url.startsWith("http") ? url : `http://localhost:5254${url}`;
+    };
+
 
     // Arama butonu tıklanınca filtreli evleri getir
     const handleSearch = () => {
@@ -37,8 +42,18 @@ const HomePage = () => {
 
         fetch(`http://localhost:5254/api/houses/filter?${query.toString()}`)
             .then(res => res.json())
-            .then(data => setFilteredHouses(data));
+            .then(data => {
+                // Burada URL'leri düzelt!
+                const houses = data.map(ev => ({
+                    ...ev,
+                    coverImageUrl: ev.coverImageUrl
+                        ? (ev.coverImageUrl.startsWith("http") ? ev.coverImageUrl : "http://localhost:5254" + ev.coverImageUrl)
+                        : "/placeholder.jpg"
+                }));
+                setFilteredHouses(houses);
+            });
     };
+
 
     // Tüm evleri veritabanından çek
     useEffect(() => {
@@ -214,29 +229,41 @@ const HomePage = () => {
                 </button>
             </div>
 
+           
             {/* Popüler Evler */}
             <div className="mb-10">
-                <h2 className="text-2xl font-semibold mb-4 text-[#260B01]">Popüler Evler</h2>
+                <h2 className="text-2xl font-semibold mb-4 text-black">Popüler Evler</h2>
                 {loadingPopular ? (
-                    <div>Yükleniyor...</div>
+                    <div className="text-black">Yükleniyor...</div>
                 ) : popularHouses.length === 0 ? (
-                    <div>Henüz popüler ev yok.</div>
+                    <div className="text-black">Henüz popüler ev yok.</div>
                 ) : (
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                         {popularHouses.map((house) => (
                             <Link key={house.id} href={`/houses/${house.id}`}
                                 className="block bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow">
-                                <img src={"http://localhost:5254" + house.coverImageUrl} alt={house.city} className="w-full h-48 object-cover" />
+                                <img
+                                    src={getFullImageUrl(house.coverImageUrl)}
+                                    alt={`Ev ${house.id}`}
+                                    className="w-full h-48 object-cover"
+                                />
+
                                 <div className="p-4">
-                                    <h2 className="text-xl font-semibold mb-1">{house.city}, {house.country}</h2>
-                                    <div className="flex items-center gap-3 text-sm mb-2">
+                                    <h2 className="text-xl font-semibold mb-1 text-black">
+                                        {house.city}, {house.country}
+                                    </h2>
+                                    <div className="flex items-center gap-3 text-sm mb-2 text-black">
                                         <div className="flex items-center gap-1"><FaBed /> {house.bedroomCount}</div>
                                         <div className="flex items-center gap-1"><FaBath /> {house.bathroomCount}</div>
                                         <div className="flex items-center gap-1"><FaUserCircle /> {house.capacity} Kişi</div>
                                     </div>
                                     <div className="flex justify-between items-center">
-                                        <span className="font-bold">₺{house.pricePerNight}/gece</span>
-                                        <span className="flex items-center gap-1 text-yellow-500"><FaStar /> {house.averageRating}</span>
+                                        <span className="font-bold text-black">
+                                            ₺{house.pricePerNight}/gece
+                                        </span>
+                                        <span className="flex items-center gap-1 text-yellow-500">
+                                            <FaStar /> {house.averageRating}
+                                        </span>
                                     </div>
                                 </div>
                             </Link>
@@ -244,6 +271,7 @@ const HomePage = () => {
                     </div>
                 )}
             </div>
+
             {/* Ev Kartları */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-10 w-full max-w-6xl text-[#260B01]">
                 {filteredHouses.length === 0 ? (
