@@ -10,6 +10,6 @@
     "\\frontend\\src\\app\\reservation-confirmation",
     "\\frontend\\src\\app\\signup"
   ],
-  "SelectedNode": "\\Api\\Program.cs",
+  "SelectedNode": "\\frontend\\src\\app\\add-review\\page.js",
   "PreviewInSolutionExplorer": false
 }
