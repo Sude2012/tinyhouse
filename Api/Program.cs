@@ -762,20 +762,21 @@ app.MapGet("/api/admin/users", async (IConfiguration configuration) =>
     using var conn = new SqlConnection(connectionString);
     await conn.OpenAsync();
 
-    var cmd = new SqlCommand("SELECT Username, Email FROM Users", conn);
+    var cmd = new SqlCommand("SELECT Username, Email, IsActive FROM Users", conn);
     using var reader = await cmd.ExecuteReaderAsync();
     while (await reader.ReadAsync())
     {
         var username = reader.IsDBNull(0) ? "" : reader.GetString(0);
         var email = reader.IsDBNull(1) ? "" : reader.GetString(1);
+        var isActive = reader.IsDBNull(2) ? false : reader.GetBoolean(2);
 
-        users.Add(new { username, email });
+        users.Add(new { username, email, isActive });
     }
 
-    return Results.Json(users); // BURASI!
+    return Results.Json(users);
 });
-
-
+// === BACKEND ===
+// /api/admin/dashboard endpointinde reservation trendini veritabanı fonksiyonuyla döner
 
 app.MapGet("/api/admin/dashboard", async (IConfiguration configuration) =>
 {
@@ -796,7 +797,6 @@ app.MapGet("/api/admin/dashboard", async (IConfiguration configuration) =>
     ", conn);
 
     using var reader = await cmd.ExecuteReaderAsync();
-
     if (await reader.ReadAsync()) userCount = reader.GetInt32(0);
     await reader.NextResultAsync();
     if (await reader.ReadAsync()) reservationCount = reader.GetInt32(0);
@@ -806,9 +806,17 @@ app.MapGet("/api/admin/dashboard", async (IConfiguration configuration) =>
     if (await reader.ReadAsync()) totalPayment = reader.GetDecimal(0);
     await reader.CloseAsync();
 
-    for (int i = 1; i <= 5; i++)
+    // Veritabanı fonksiyonunu kullanarak rezervasyon trendi al
+    var chartQuery = "SELECT MonthName, ReservationCount FROM dbo.GetMonthlyReservationTrends()";
+    var chartCmd = new SqlCommand(chartQuery, conn);
+    using var chartReader = await chartCmd.ExecuteReaderAsync();
+    while (await chartReader.ReadAsync())
     {
-        chartData.Add(new { name = new DateTime(2025, i, 1).ToString("MMM"), reservations = new Random().Next(10, 50) });
+        chartData.Add(new
+        {
+            name = chartReader.GetString(0).Substring(0, 3), // örn: Jan
+            reservations = chartReader.GetInt32(1)
+        });
     }
 
     var stats = new[]
@@ -1107,6 +1115,9 @@ app.MapGet("/api/houses/filter", async (HttpRequest request, IConfiguration conf
     return Results.Ok(houses);
 });
 
+
+// === BACKEND ===
+// /api/admin/dashboard endpointinde reservation trendini veritabanı fonksiyonuyla döner
 
 
 

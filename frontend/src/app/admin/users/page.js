@@ -1,25 +1,46 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { User } from "lucide-react";
-import { useEffect, useState } from "react";
 
-export default function UsersPage() {
+export default function AdminUsersPage() {
   const [users, setUsers] = useState([]);
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const res = await fetch("http://localhost:5254/api/admin/users");
-        const data = await res.json();
-        setUsers(data);
-      } catch (err) {
-        console.error("Kullanıcıları alırken hata oluştu:", err);
-      }
-    };
+  const fetchUsers = async () => {
+    const res = await fetch("http://localhost:5254/api/admin/users");
+    const data = await res.json();
+    setUsers(data);
+  };
 
+  const toggleStatus = async (email) => {
+    try {
+      const res = await fetch(
+        "http://localhost:5254/api/admin/users/toggle-status",
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email }),
+        }
+      );
+
+      if (res.ok) {
+        await fetchUsers(); // durumu güncelle
+      } else {
+        alert("Durum değiştirme başarısız.");
+      }
+    } catch (err) {
+      console.error("Durum değiştirilemedi:", err);
+    }
+  };
+
+  useEffect(() => {
     fetchUsers();
   }, []);
+
+  const isActiveCheck = (value) => {
+    return value === true || value === 1 || value === "1" || value === "true";
+  };
 
   return (
     <motion.div
@@ -29,7 +50,7 @@ export default function UsersPage() {
       transition={{ duration: 0.6 }}
     >
       <div className="flex items-center gap-4 mb-6">
-        <User className="text-blue-600 w-8 h-8" />
+        <User className="text-[#906668] w-8 h-8" />
         <h1 className="text-3xl font-bold text-gray-800">Kullanıcılar</h1>
       </div>
 
@@ -40,21 +61,46 @@ export default function UsersPage() {
         transition={{ delay: 0.2 }}
       >
         <p className="text-gray-700 text-lg">
-          Sistemdeki kullanıcıları görüntüleyin.
+          Tüm kullanıcılar aşağıda listelenmektedir.
         </p>
 
-        <div className="mt-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-          {users.map((user, i) => (
-            <motion.div
-              key={i}
-              className="p-4 bg-gray-100 rounded-xl shadow-sm"
-              whileHover={{ scale: 1.03 }}
-              transition={{ type: "spring", stiffness: 300 }}
-            >
-              <p className="text-gray-800 font-semibold">{user.username}</p>
-              <p className="text-gray-500 text-sm">{user.email}</p>
-            </motion.div>
-          ))}
+        <div className="mt-4 space-y-4">
+          {users.length === 0 ? (
+            <p className="text-gray-500">Kayıtlı kullanıcı bulunamadı.</p>
+          ) : (
+            users.map((user, i) => (
+              <motion.div
+                key={i}
+                className="p-4 bg-gray-100 rounded-xl shadow-sm flex justify-between items-center"
+                whileHover={{ scale: 1.02 }}
+                transition={{ duration: 0.2 }}
+              >
+                <div>
+                  <p className="text-gray-800 font-semibold">{user.username}</p>
+                  <p className="text-gray-500 text-sm">{user.email}</p>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span
+                    className={`px-3 py-1 rounded-full text-sm font-medium ${
+                      isActiveCheck(user.isActive)
+                        ? "bg-green-100 text-green-700"
+                        : "bg-red-100 text-red-600"
+                    }`}
+                  >
+                    {isActiveCheck(user.isActive) ? "Aktif" : "Pasif"}
+                  </span>
+                  <button
+                    onClick={() => toggleStatus(user.email)}
+                    className="text-sm px-3 py-1 bg-[#C99297] text-white rounded-md hover:bg-[#b5787f]"
+                  >
+                    {isActiveCheck(user.isActive)
+                      ? "Pasifleştir"
+                      : "Aktifleştir"}
+                  </button>
+                </div>
+              </motion.div>
+            ))
+          )}
         </div>
       </motion.div>
     </motion.div>

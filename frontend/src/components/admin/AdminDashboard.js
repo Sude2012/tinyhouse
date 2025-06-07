@@ -79,7 +79,7 @@ export default function AdminDashboard() {
         <ResponsiveContainer width="100%" height={300}>
           <BarChart data={chartData}>
             <XAxis dataKey="name" />
-            <YAxis />
+            <YAxis allowDecimals={false} />
             <Tooltip />
             <Bar dataKey="reservations" fill="#C99297" radius={[4, 4, 0, 0]} />
           </BarChart>
