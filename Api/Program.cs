@@ -19,6 +19,7 @@ builder.Services.AddCors(options =>
         policy.WithOrigins("http://localhost:3000")
               .AllowAnyHeader()
               .AllowAnyMethod();
+            
     });
 });
 
@@ -1115,12 +1116,51 @@ app.MapGet("/api/houses/filter", async (HttpRequest request, IConfiguration conf
     return Results.Ok(houses);
 });
 
+app.MapPut("/api/admin/users/toggle-status", async (HttpRequest request, IConfiguration configuration) =>
+{
+    try
+    {
+        var requestBody = await new StreamReader(request.Body).ReadToEndAsync();
+        var userData = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, string>>(requestBody);
 
-// === BACKEND ===
-// /api/admin/dashboard endpointinde reservation trendini veritabanı fonksiyonuyla döner
+        if (userData == null || !userData.ContainsKey("email") || string.IsNullOrWhiteSpace(userData["email"]))
+        {
+            return Results.BadRequest(new { message = "Geçerli bir e-posta adresi gönderilmelidir." });
+        }
 
+        var email = userData["email"];
+        var connectionString = configuration.GetConnectionString("DefaultConnection");
 
+        using var conn = new SqlConnection(connectionString);
+        await conn.OpenAsync();
 
+        // Mevcut durumu al
+        var selectCmd = new SqlCommand("SELECT IsActive FROM Users WHERE Email = @Email", conn);
+        selectCmd.Parameters.AddWithValue("@Email", email);
+
+        var result = await selectCmd.ExecuteScalarAsync();
+        if (result == null)
+            return Results.NotFound(new { message = "Kullanıcı bulunamadı." });
+
+        bool currentStatus = Convert.ToBoolean(result);
+        bool newStatus = !currentStatus;
+
+        // Yeni durumu güncelle
+        var updateCmd = new SqlCommand("UPDATE Users SET IsActive = @IsActive WHERE Email = @Email", conn);
+        updateCmd.Parameters.AddWithValue("@IsActive", newStatus);
+        updateCmd.Parameters.AddWithValue("@Email", email);
+
+        int affected = await updateCmd.ExecuteNonQueryAsync();
+        if (affected == 0)
+            return Results.BadRequest(new { message = "Durum güncellenemedi." });
+
+        return Results.Ok(new { message = "Durum başarıyla güncellendi.", newStatus });
+    }
+    catch (Exception ex)
+    {
+        return Results.Problem("Beklenmeyen bir hata oluştu: " + ex.Message);
+    }
+});
 
 
 
