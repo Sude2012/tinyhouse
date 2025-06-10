@@ -3,13 +3,9 @@
     "",
     "\\Api",
     "\\frontend",
-    "\\frontend\\src",
-    "\\frontend\\src\\app",
-    "\\frontend\\src\\app\\add-review",
-    "\\frontend\\src\\app\\my-reservations",
-    "\\frontend\\src\\app\\reservation-confirmation",
-    "\\frontend\\src\\app\\signup"
+    "\\frontend\\public",
+    "\\frontend\\src"
   ],
-  "SelectedNode": "\\frontend\\src\\app\\add-review\\page.js",
+  "SelectedNode": "\\frontend\\public\\Anasayfa.jpg",
   "PreviewInSolutionExplorer": false
 }

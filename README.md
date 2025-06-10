@@ -73,7 +73,7 @@ Ev Sahibi Özellikleri: İlan ekleyip düzenleyebilirsiniz.
 
 📸 Ekran Görüntüleri
 Ana Sayfa:
-![Ana Sayfa](frontend/public/Ana sayfa.jpg)
+![Ana Sayfa](frontend/public/Anasayfa.jpg)
 Giriş Yap Sayfası:
 ![Giriş Yap](frontend/public/girişyap.jpg)
 Admin Sayfası:
